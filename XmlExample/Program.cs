@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Sprache;
@@ -104,10 +105,27 @@ namespace XmlExample
     {
         static void Main()
         {
-            string input = File.ReadAllText("TestFile.xml", Encoding.UTF8);
-            var parsed = XmlParser.Document.Parse(input);
-            Console.WriteLine(parsed);
-            Console.ReadKey(true);
+            MeasurePerformance(() =>
+            {
+                string input = File.ReadAllText("TestFile.xml", Encoding.UTF8);
+                var parsed = XmlParser.Document.Parse(input);
+                Console.WriteLine(parsed);
+                Console.ReadKey(true);
+            });
+        }
+
+        static void MeasurePerformance(Action action)
+        {
+            var currentProcess = Process.GetCurrentProcess();
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            action();
+
+            stopwatch.Stop();
+            var usedMemory = currentProcess.WorkingSet64;
+            Console.WriteLine("time: {0}", stopwatch.Elapsed);
+            Console.WriteLine("memory: {0}", usedMemory);
         }
     }
 }
