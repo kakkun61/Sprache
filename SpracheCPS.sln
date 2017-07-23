@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlExample", "XmlExample\Xm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpracheCPS", "SpracheCPS\SpracheCPS.csproj", "{ADD99006-8B28-42B3-81E0-685F65BB1FBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{CE894CE3-B5BB-43E2-96DD-AC69865951CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{ADD99006-8B28-42B3-81E0-685F65BB1FBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADD99006-8B28-42B3-81E0-685F65BB1FBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADD99006-8B28-42B3-81E0-685F65BB1FBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE894CE3-B5BB-43E2-96DD-AC69865951CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE894CE3-B5BB-43E2-96DD-AC69865951CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE894CE3-B5BB-43E2-96DD-AC69865951CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE894CE3-B5BB-43E2-96DD-AC69865951CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
