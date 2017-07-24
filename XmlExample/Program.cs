@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -116,16 +116,35 @@ namespace XmlExample
 
         static void MeasurePerformance(Action action)
         {
+            var n = 10;
+            var elapsedTimeSpans = new double[n];
+            var usedMemories = new long[n];
             var currentProcess = Process.GetCurrentProcess();
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
 
-            action();
+            for (int i = 0; i < n; i++)
+            {
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
 
-            stopwatch.Stop();
-            var usedMemory = currentProcess.WorkingSet64;
-            Console.WriteLine("time: {0}", stopwatch.Elapsed);
-            Console.WriteLine("memory: {0}", usedMemory);
+                action();
+
+                stopwatch.Stop();
+                elapsedTimeSpans[i] = stopwatch.Elapsed.TotalMilliseconds;
+                usedMemories[i] = currentProcess.WorkingSet64;
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+            }
+
+            {
+                Console.WriteLine("mean time [ms]: {0}", TimeSpan.FromMilliseconds(elapsedTimeSpans.Average()));
+                Console.WriteLine("max time [ms]: {0}", TimeSpan.FromMilliseconds(elapsedTimeSpans.Max()));
+                Console.WriteLine("min time [ms]: {0}", TimeSpan.FromMilliseconds(elapsedTimeSpans.Min()));
+                Console.WriteLine("mean memory [B]: {0}", usedMemories.Average());
+                Console.WriteLine("max memory [B]: {0}", usedMemories.Max());
+                Console.WriteLine("min memory [B]: {0}", usedMemories.Min());
+            }
         }
     }
 }
