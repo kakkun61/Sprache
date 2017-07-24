@@ -110,7 +110,6 @@ namespace XmlExample
                 string input = File.ReadAllText("TestFile.xml", Encoding.UTF8);
                 var parsed = XmlParser.Document.Parse(input);
                 Console.WriteLine(parsed);
-                Console.ReadKey(true);
             });
         }
 
