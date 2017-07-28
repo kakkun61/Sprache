@@ -116,6 +116,7 @@ namespace XmlExample
         static void MeasurePerformance(Action action)
         {
             var n = 10;
+            var m = 10;
             var elapsedTimeSpans = new double[n];
             var usedMemories = new long[n];
             var currentProcess = Process.GetCurrentProcess();
@@ -125,7 +126,10 @@ namespace XmlExample
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
 
-                action();
+                for (int j = 0; j < m; j++)
+                {
+                    action();
+                }
 
                 stopwatch.Stop();
                 elapsedTimeSpans[i] = stopwatch.Elapsed.TotalMilliseconds;
