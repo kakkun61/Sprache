@@ -71,15 +71,15 @@ namespace Sprache
             return Char(c.Contains, StringExtensions.Join("|", c));
         }
 
-        ///// <summary>
-        ///// Parse a single character of any in c
-        ///// </summary>
-        ///// <param name="c"></param>
-        ///// <returns></returns>
-        //public static Parser<char> Chars(string c)
-        //{
-        //    return Char(c.ToEnumerable().Contains, StringExtensions.Join("|", c.ToEnumerable()));
-        //}
+        /// <summary>
+        /// Parse a single character of any in c
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static Parser<char> Chars(string c)
+        {
+            return Char(c.ToEnumerable().Contains, StringExtensions.Join("|", c.ToEnumerable()));
+        }
 
 
         ///// <summary>
