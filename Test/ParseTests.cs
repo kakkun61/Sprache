@@ -13,11 +13,11 @@ namespace Sprache.Tests
             AssertParser.SucceedsWithOne(Parse.Char('a').Once(), "a", 'a');
         }
 
-        //[Fact]
-        //public void Parser_OfChar_AcceptsOnlyOneChar()
-        //{
-        //    AssertParser.SucceedsWithOne(Parse.Char('a').Once(), "aaa", 'a');
-        //}
+        [Fact]
+        public void Parser_OfChar_AcceptsOnlyOneChar()
+        {
+            AssertParser.SucceedsWithOne(Parse.Char('a').Once(), "aaa", 'a');
+        }
 
         //[Fact]
         //public void Parser_OfChar_DoesNotAcceptNonMatchingChar()
