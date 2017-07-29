@@ -25,11 +25,11 @@ namespace Sprache.Tests
             AssertParser.FailsAt(Parse.Char('a').Once(), "b", 0);
         }
 
-        //[Fact]
-        //public void Parser_OfChar_DoesNotAcceptEmptyInput()
-        //{
-        //    AssertParser.Fails(Parse.Char('a').Once(), "");
-        //}
+        [Fact]
+        public void Parser_OfChar_DoesNotAcceptEmptyInput()
+        {
+            AssertParser.Fails(Parse.Char('a').Once(), "");
+        }
 
         //[Fact]
         //public void Parser_OfChars_AcceptsAnyOfThoseChars()

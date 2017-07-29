@@ -41,10 +41,10 @@ namespace Sprache.Tests
                 });
         }
 
-        //public static void Fails<T>(Parser<T> parser, string input)
-        //{
-        //    FailsWith(parser, input, f => { });
-        //}
+        public static void Fails<T>(Parser<T> parser, string input)
+        {
+            FailsWith(parser, input, (ramainder, message, expectations) => { });
+        }
 
         public static void FailsAt<T>(Parser<T> parser, string input, int position)
         {
