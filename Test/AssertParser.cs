@@ -29,42 +29,41 @@ namespace Sprache.Tests
 
         public static void SucceedsWith<T>(Parser<T> parser, string input, Action<T> resultAssertion)
         {
-            parser.TryParse(input)
-                .IfFailure(f =>
+            parser.TryParse(
+                input,
+                (value, remainder) =>
                 {
-                    Assert.True(false, $"Parsing of \"input\" failed unexpectedly. f");
-                    return f;
-                })
-                .IfSuccess(s =>
+                    resultAssertion(value);
+                },
+                (remainder, message, expectations) =>
                 {
-                    resultAssertion(s.Value);
-                    return s;
+                    Assert.True(false, $"Parsing of \"input\" failed unexpectedly.");
                 });
         }
 
-        public static void Fails<T>(Parser<T> parser, string input)
-        {
-            FailsWith(parser, input, f => { });
-        }
+        //public static void Fails<T>(Parser<T> parser, string input)
+        //{
+        //    FailsWith(parser, input, f => { });
+        //}
 
-        public static void FailsAt<T>(Parser<T> parser, string input, int position)
-        {
-            FailsWith(parser, input, f => Assert.Equal(position, f.Remainder.Position));
-        }
+        //public static void FailsAt<T>(Parser<T> parser, string input, int position)
+        //{
+        //    FailsWith(parser, input, f => Assert.Equal(position, f.Remainder.Position));
+        //}
 
-        public static void FailsWith<T>(Parser<T> parser, string input, Action<IResult<T>> resultAssertion)
-        {
-            parser.TryParse(input)
-                .IfSuccess(s =>
-                {
-                    Assert.True(false, $"Expected failure but succeeded with {s.Value}.");
-                    return s;
-                })
-                .IfFailure(f =>
-                {
-                    resultAssertion(f);
-                    return f;
-                });
-        }
+        //public static void FailsWith<T>(Parser<T> parser, string input, Action<IResult<T>> resultAssertion)
+        //{
+        //    parser.TryParse(input)
+        //        .IfSuccess(s =>
+        //        {
+        //            Assert.True(false, $"Expected failure but succeeded with {s.Value}.");
+        //            return s;
+        //        })
+        //        .IfFailure(f =>
+        //        {
+        //            resultAssertion(f);
+        //            return f;
+        //        });
+        //}
     }
 }
