@@ -31,14 +31,14 @@ namespace Sprache.Tests
             AssertParser.Fails(Parse.Char('a').Once(), "");
         }
 
-        //[Fact]
-        //public void Parser_OfChars_AcceptsAnyOfThoseChars()
-        //{
-        //    var parser = Parse.Chars('a', 'b', 'c').Once();
-        //    AssertParser.SucceedsWithOne(parser, "a", 'a');
-        //    AssertParser.SucceedsWithOne(parser, "b", 'b');
-        //    AssertParser.SucceedsWithOne(parser, "c", 'c');
-        //}
+        [Fact]
+        public void Parser_OfChars_AcceptsAnyOfThoseChars()
+        {
+            var parser = Parse.Chars('a', 'b', 'c').Once();
+            AssertParser.SucceedsWithOne(parser, "a", 'a');
+            AssertParser.SucceedsWithOne(parser, "b", 'b');
+            AssertParser.SucceedsWithOne(parser, "c", 'c');
+        }
 
         //[Fact]
         //public void Parser_OfChars_UsingString_AcceptsAnyOfThoseChars()

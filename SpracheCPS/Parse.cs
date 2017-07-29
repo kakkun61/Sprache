@@ -61,15 +61,15 @@ namespace Sprache
         }
 
 
-        ///// <summary>
-        ///// Parse a single character of any in c
-        ///// </summary>
-        ///// <param name="c"></param>
-        ///// <returns></returns>
-        //public static Parser<char> Chars(params char[] c)
-        //{
-        //    return Char(c.Contains, StringExtensions.Join("|", c));
-        //}
+        /// <summary>
+        /// Parse a single character of any in c
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static Parser<char> Chars(params char[] c)
+        {
+            return Char(c.Contains, StringExtensions.Join("|", c));
+        }
 
         ///// <summary>
         ///// Parse a single character of any in c
