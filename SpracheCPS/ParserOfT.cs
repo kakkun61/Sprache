@@ -11,9 +11,9 @@ namespace Sprache
     /// <returns>The result of the parser.</returns>
     public delegate void Parser<out T>(IInput input, OnSuccess<T> onSuccess, OnFailure onFailure);
 
-    public delegate void OnSuccess<in T>(IInput remainder, T value);
+    public delegate void OnSuccess<in T>(T value, IInput remainder);
 
-    public delegate void OnFailure(string message, IEnumerable<string> expectations);
+    public delegate void OnFailure(IInput remainder, string message, IEnumerable<string> expectations);
 
     /// <summary>
     /// Contains some extension methods for <see cref="Parser&lt;T&gt;" />.
@@ -27,12 +27,12 @@ namespace Sprache
         /// <param name="parser">The parser.</param>
         /// <param name="input">The input.</param>
         /// <returns>The result of the parser</returns>
-        public static IResult<T> TryParse<T>(this Parser<T> parser, string input)
+        public static void TryParse<T>(this Parser<T> parser, string input, OnSuccess<T> onSuccess, OnFailure onFailure)
         {
             if (parser == null) throw new ArgumentNullException(nameof(parser));
             if (input == null) throw new ArgumentNullException(nameof(input));
 
-            return parser(new Input(input));
+            parser(new Input(input), onSuccess, onFailure);
         }
 
         /// <summary>

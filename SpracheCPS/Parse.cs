@@ -21,21 +21,21 @@ namespace Sprache
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             if (description == null) throw new ArgumentNullException(nameof(description));
 
-            return i =>
+            return (i, onSuccess, onFailure) =>
             {
                 if (!i.AtEnd)
                 {
                     if (predicate(i.Current))
-                        return Result.Success(i.Current, i.Advance());
-
-                    return Result.Failure<char>(i,
-                        $"unexpected '{i.Current}'",
-                        new[] { description });
+                        onSuccess(i.Current, i.Advance());
+                    else
+                        onFailure(i,
+                            $"unexpected '{i.Current}'",
+                            new[] { description });
                 }
-
-                return Result.Failure<char>(i,
-                    "Unexpected end of input reached",
-                    new[] { description });
+                else
+                    onFailure(i,
+                        "Unexpected end of input reached",
+                        new[] { description });
             };
         }
 
@@ -235,7 +235,7 @@ namespace Sprache
             if (first == null) throw new ArgumentNullException(nameof(first));
             if (second == null) throw new ArgumentNullException(nameof(second));
 
-            return i => first(i).IfSuccess(s => second(s.Value)(s.Remainder));
+            return (i, onSuccess, onFaulure) => { first(i, (value, remainder) => second(value)(remainder, onSuccess, onFaulure), onFaulure); };
         }
 
         /// <summary>
@@ -537,7 +537,7 @@ namespace Sprache
         /// <returns></returns>
         public static Parser<T> Return<T>(T value)
         {
-            return i => Result.Success(value, i);
+            return (i, onSuccess, onFailure) => { onSuccess(value, i); };
         }
 
         /// <summary>
