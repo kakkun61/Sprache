@@ -46,24 +46,20 @@ namespace Sprache.Tests
         //    FailsWith(parser, input, f => { });
         //}
 
-        //public static void FailsAt<T>(Parser<T> parser, string input, int position)
-        //{
-        //    FailsWith(parser, input, f => Assert.Equal(position, f.Remainder.Position));
-        //}
+        public static void FailsAt<T>(Parser<T> parser, string input, int position)
+        {
+            FailsWith(parser, input, (remainder, message, expectations) => { Assert.Equal(position, remainder.Position); });
+        }
 
-        //public static void FailsWith<T>(Parser<T> parser, string input, Action<IResult<T>> resultAssertion)
-        //{
-        //    parser.TryParse(input)
-        //        .IfSuccess(s =>
-        //        {
-        //            Assert.True(false, $"Expected failure but succeeded with {s.Value}.");
-        //            return s;
-        //        })
-        //        .IfFailure(f =>
-        //        {
-        //            resultAssertion(f);
-        //            return f;
-        //        });
-        //}
+        public static void FailsWith<T>(Parser<T> parser, string input, OnFailure resultAssertion)
+        {
+            parser.TryParse(
+                input,
+                (value, remainder) =>
+                {
+                    Assert.True(false, $"Expected failure but succeeded with {value}.");
+                },
+                resultAssertion);
+        }
     }
 }

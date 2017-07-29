@@ -19,11 +19,11 @@ namespace Sprache.Tests
             AssertParser.SucceedsWithOne(Parse.Char('a').Once(), "aaa", 'a');
         }
 
-        //[Fact]
-        //public void Parser_OfChar_DoesNotAcceptNonMatchingChar()
-        //{
-        //    AssertParser.FailsAt(Parse.Char('a').Once(), "b", 0);
-        //}
+        [Fact]
+        public void Parser_OfChar_DoesNotAcceptNonMatchingChar()
+        {
+            AssertParser.FailsAt(Parse.Char('a').Once(), "b", 0);
+        }
 
         //[Fact]
         //public void Parser_OfChar_DoesNotAcceptEmptyInput()
