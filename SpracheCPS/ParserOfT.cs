@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Sprache
 {
@@ -8,7 +9,11 @@ namespace Sprache
     /// <typeparam name="T">The type of the result.</typeparam>
     /// <param name="input">The input to parse.</param>
     /// <returns>The result of the parser.</returns>
-    public delegate IResult<T> Parser<out T>(IInput input);
+    public delegate void Parser<out T>(IInput input, OnSuccess<T> onSuccess, OnFailure onFailure);
+
+    public delegate void OnSuccess<in T>(IInput remainder, T value);
+
+    public delegate void OnFailure(string message, IEnumerable<string> expectations);
 
     /// <summary>
     /// Contains some extension methods for <see cref="Parser&lt;T&gt;" />.
