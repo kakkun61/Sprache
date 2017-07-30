@@ -34,21 +34,23 @@ namespace Sprache.Tests
                 (value, remainder) =>
                 {
                     resultAssertion(value);
+                    return null;
                 },
                 (remainder, message, expectations) =>
                 {
                     Assert.True(false, $"Parsing of \"input\" failed unexpectedly.");
+                    return null;
                 });
         }
 
         public static void Fails<T>(Parser<T> parser, string input)
         {
-            FailsWith(parser, input, (ramainder, message, expectations) => { });
+            FailsWith(parser, input, (ramainder, message, expectations) => null);
         }
 
         public static void FailsAt<T>(Parser<T> parser, string input, int position)
         {
-            FailsWith(parser, input, (remainder, message, expectations) => { Assert.Equal(position, remainder.Position); });
+            FailsWith(parser, input, (remainder, message, expectations) => { Assert.Equal(position, remainder.Position); return null; });
         }
 
         public static void FailsWith<T>(Parser<T> parser, string input, OnFailure resultAssertion)
@@ -58,6 +60,7 @@ namespace Sprache.Tests
                 (value, remainder) =>
                 {
                     Assert.True(false, $"Expected failure but succeeded with {value}.");
+                    return null;
                 },
                 resultAssertion);
         }

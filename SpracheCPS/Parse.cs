@@ -26,16 +26,14 @@ namespace Sprache
                 if (!i.AtEnd)
                 {
                     if (predicate(i.Current))
-                        onSuccess(i.Current, i.Advance());
-                    else
-                        onFailure(i,
-                            $"unexpected '{i.Current}'",
-                            new[] { description });
-                }
-                else
-                    onFailure(i,
-                        "Unexpected end of input reached",
+                        return onSuccess(i.Current, i.Advance());
+                    return onFailure(i,
+                        $"unexpected '{i.Current}'",
                         new[] { description });
+                }
+                return onFailure(i,
+                    "Unexpected end of input reached",
+                    new[] { description });
             };
         }
 
@@ -235,7 +233,11 @@ namespace Sprache
             if (first == null) throw new ArgumentNullException(nameof(first));
             if (second == null) throw new ArgumentNullException(nameof(second));
 
-            return (i, onSuccess, onFaulure) => { first(i, (value, remainder) => second(value)(remainder, onSuccess, onFaulure), onFaulure); };
+            return (i, onSuccess, onFaulure) =>
+            {
+                OnSuccess<T> onSucc = ((value, remainder) => second(value)(remainder, onSuccess, onFaulure));
+                return first(i, onSucc, onFaulure);
+            };
         }
 
         ///// <summary>
@@ -264,7 +266,6 @@ namespace Sprache
         //            remainder = r.Remainder;
         //            r = parser(remainder);
         //        }
-
         //        return Result.Success<IEnumerable<T>>(result, remainder);
         //    };
         //}
@@ -537,7 +538,7 @@ namespace Sprache
         /// <returns></returns>
         public static Parser<T> Return<T>(T value)
         {
-            return (i, onSuccess, onFailure) => { onSuccess(value, i); };
+            return (i, onSuccess, onFailure) => onSuccess(value, i);
         }
 
         ///// <summary>

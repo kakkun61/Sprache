@@ -61,6 +61,15 @@ namespace Sprache
             _expectations = expectations;
         }
 
+        public Result(IResult<object> result)
+        {
+            _value = (T) result.Value;
+            _remainder = result.Remainder;
+            _wasSuccessful = result.WasSuccessful;
+            _message = result.Message;
+            _expectations = result.Expectations;
+        }
+
         public T Value
         {
             get
