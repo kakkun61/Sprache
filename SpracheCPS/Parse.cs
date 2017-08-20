@@ -586,27 +586,27 @@ namespace Sprache
         //            new string[0]));
         //}
 
-        ///// <summary>
-        ///// Monadic combinator Then, adapted for Linq comprehension syntax.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <typeparam name="U"></typeparam>
-        ///// <typeparam name="V"></typeparam>
-        ///// <param name="parser"></param>
-        ///// <param name="selector"></param>
-        ///// <param name="projector"></param>
-        ///// <returns></returns>
-        //public static Parser<V> SelectMany<T, U, V>(
-        //    this Parser<T> parser,
-        //    Func<T, Parser<U>> selector,
-        //    Func<T, U, V> projector)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
-        //    if (selector == null) throw new ArgumentNullException(nameof(selector));
-        //    if (projector == null) throw new ArgumentNullException(nameof(projector));
+        /// <summary>
+        /// Monadic combinator Then, adapted for Linq comprehension syntax.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <typeparam name="V"></typeparam>
+        /// <param name="parser"></param>
+        /// <param name="selector"></param>
+        /// <param name="projector"></param>
+        /// <returns></returns>
+        public static Parser<V> SelectMany<T, U, V>(
+            this Parser<T> parser,
+            Func<T, Parser<U>> selector,
+            Func<T, U, V> projector)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
+            if (selector == null) throw new ArgumentNullException(nameof(selector));
+            if (projector == null) throw new ArgumentNullException(nameof(projector));
 
-        //    return parser.Then(t => selector(t).Select(u => projector(t, u)));
-        //}
+            return parser.Then(t => selector(t).Select(u => projector(t, u)));
+        }
 
         ///// <summary>
         ///// Chain a left-associative operator.

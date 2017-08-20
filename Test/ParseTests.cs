@@ -102,16 +102,16 @@ namespace Sprache.Tests
             Assert.Equal(0, r.Remainder.Position);
         }
 
-        //[Fact]
-        //public void CanSpecifyParsersUsingQueryComprehensions()
-        //{
-        //    var p = from a in Parse.Char('a').Once()
-        //            from bs in Parse.Char('b').Many()
-        //            from cs in Parse.Char('c').AtLeastOnce()
-        //            select a.Concat(bs).Concat(cs);
+        [Fact]
+        public void CanSpecifyParsersUsingQueryComprehensions()
+        {
+            var p = from a in Parse.Char('a').Once()
+                    from bs in Parse.Char('b').Many()
+                    from cs in Parse.Char('c').AtLeastOnce()
+                    select a.Concat(bs).Concat(cs);
 
-        //    AssertParser.SucceedsWithAll(p, "abbbc");
-        //}
+            AssertParser.SucceedsWithAll(p, "abbbc");
+        }
 
         //[Fact]
         //public void WhenFirstOptionSucceedsButConsumesNothing_SecondOptionTried()
