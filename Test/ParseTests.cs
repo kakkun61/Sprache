@@ -200,12 +200,12 @@ namespace Sprache.Tests
             AssertParser.FailsAt(p, "ababaf", 5);
         }
 
-        //[Fact]
-        //public void ExceptStopsConsumingInputWhenExclusionParsed()
-        //{
-        //    var exceptAa = Parse.AnyChar.Except(Parse.String("aa")).Many().Text();
-        //    AssertParser.SucceedsWith(exceptAa, "abcaab", r => Assert.Equal("abc", r));
-        //}
+        [Fact]
+        public void ExceptStopsConsumingInputWhenExclusionParsed()
+        {
+            var exceptAa = Parse.AnyChar.Except(Parse.String("aa")).Many().Text();
+            AssertParser.SucceedsWith(exceptAa, "abcaab", r => Assert.Equal("abc", r));
+        }
 
         //[Fact]
         //public void UntilProceedsUntilTheStopConditionIsMetAndReturnsAllButEnd()

@@ -138,10 +138,10 @@ namespace Sprache
         //        .Named(s);
         //}
 
-        ///// <summary>
-        ///// Parse any character.
-        ///// </summary>
-        //public static readonly Parser<char> AnyChar = Char(c => true, "any character");
+        /// <summary>
+        /// Parse any character.
+        /// </summary>
+        public static readonly Parser<char> AnyChar = Char(c => true, "any character");
 
         ///// <summary>
         ///// Parse a whitespace.
@@ -399,15 +399,15 @@ namespace Sprache
             };
         }
 
-        ///// <summary>
-        ///// Convert a stream of characters to a string.
-        ///// </summary>
-        ///// <param name="characters"></param>
-        ///// <returns></returns>
-        //public static Parser<string> Text(this Parser<IEnumerable<char>> characters)
-        //{
-        //    return characters.Select(chs => new string(chs.ToArray()));
-        //}
+        /// <summary>
+        /// Convert a stream of characters to a string.
+        /// </summary>
+        /// <param name="characters"></param>
+        /// <returns></returns>
+        public static Parser<string> Text(this Parser<IEnumerable<char>> characters)
+        {
+            return characters.Select(chs => new string(chs.ToArray()));
+        }
 
         /// <summary>
         /// Parse first, if it succeeds, return first, otherwise try second.
@@ -556,28 +556,28 @@ namespace Sprache
         //    return parser.Select(t => value);
         //}
 
-        ///// <summary>
-        ///// Attempt parsing only if the <paramref name="except"/> parser fails.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <typeparam name="U"></typeparam>
-        ///// <param name="parser"></param>
-        ///// <param name="except"></param>
-        ///// <returns></returns>
-        //public static Parser<T> Except<T, U>(this Parser<T> parser, Parser<U> except)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
-        //    if (except == null) throw new ArgumentNullException(nameof(except));
+        /// <summary>
+        /// Attempt parsing only if the <paramref name="except"/> parser fails.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="parser"></param>
+        /// <param name="except"></param>
+        /// <returns></returns>
+        public static Parser<T> Except<T, U>(this Parser<T> parser, Parser<U> except)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
+            if (except == null) throw new ArgumentNullException(nameof(except));
 
-        //    // Could be more like: except.Then(s => s.Fail("..")).XOr(parser)
-        //    return i =>
-        //        {
-        //            var r = except(i);
-        //            if (r.WasSuccessful)
-        //                return Result.Failure<T>(i, "Excepted parser succeeded.", new[] { "other than the excepted input" });
-        //            return parser(i);
-        //        };
-        //}
+            // Could be more like: except.Then(s => s.Fail("..")).XOr(parser)
+            return (input, onSuccess, onFailure) =>
+            {
+                return except(
+                    input,
+                    (value, remainder) => onFailure(input, "Excepted parser succeeded.", new[] { "other than the excepted input" }),
+                    (remainder, message, expectations) => parser(input, onSuccess, onFailure));
+            };
+        }
 
         ///// <summary>
         ///// Parse a sequence of items until a terminator is reached.
