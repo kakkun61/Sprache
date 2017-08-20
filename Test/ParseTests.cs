@@ -427,13 +427,13 @@ namespace Sprache.Tests
             });
         }
 
-        //[Fact]
-        //public void CanParseContained()
-        //{
-        //    var parser = Parse.Char('a').Contained(Parse.Char('['), Parse.Char(']'));
-        //    var r = parser.TryParse("[a]");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.True(r.Remainder.AtEnd);
-        //}
+        [Fact]
+        public void CanParseContained()
+        {
+            var parser = Parse.Char('a').Contained(Parse.Char('['), Parse.Char(']'));
+            var r = parser.TryParse("[a]");
+            Assert.True(r.WasSuccessful);
+            Assert.True(r.Remainder.AtEnd);
+        }
     }
 }

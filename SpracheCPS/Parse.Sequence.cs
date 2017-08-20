@@ -111,27 +111,27 @@
             };
         }
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="parser"></param>
-        ///// <param name="open"></param>
-        ///// <param name="close"></param>
-        ///// <typeparam name="T"></typeparam>
-        ///// <typeparam name="U"></typeparam>
-        ///// <typeparam name="V"></typeparam>
-        ///// <returns></returns>
-        ///// <exception cref="ArgumentNullException"></exception>
-        //public static Parser<T> Contained<T, U, V>(this Parser<T> parser, Parser<U> open, Parser<V> close)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
-        //    if (open == null) throw new ArgumentNullException(nameof(open));
-        //    if (close == null) throw new ArgumentNullException(nameof(close));
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parser"></param>
+        /// <param name="open"></param>
+        /// <param name="close"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <typeparam name="V"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Parser<T> Contained<T, U, V>(this Parser<T> parser, Parser<U> open, Parser<V> close)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
+            if (open == null) throw new ArgumentNullException(nameof(open));
+            if (close == null) throw new ArgumentNullException(nameof(close));
 
-        //    return from o in open
-        //           from item in parser
-        //           from c in close
-        //           select item;
-        //}
+            return from o in open
+                   from item in parser
+                   from c in close
+                   select item;
+        }
     }
 }
