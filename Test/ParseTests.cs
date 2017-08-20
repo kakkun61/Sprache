@@ -322,12 +322,12 @@ namespace Sprache.Tests
             Assert.Equal(0, r.Remainder.Position);
         }
 
-        //[Fact]
-        //public void IgnoreCaseParser()
-        //{
-        //    var ab = Parse.IgnoreCase("ab").Text();
-        //    AssertParser.SucceedsWith(ab, "Ab", m => Assert.Equal("Ab", m));
-        //}
+        [Fact]
+        public void IgnoreCaseParser()
+        {
+            var ab = Parse.IgnoreCase("ab").Text();
+            AssertParser.SucceedsWith(ab, "Ab", m => Assert.Equal("Ab", m));
+        }
 
         //[Fact]
         //public void RepeatParserConsumeInputOnSuccessfulMatch()
