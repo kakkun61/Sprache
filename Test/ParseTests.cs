@@ -407,14 +407,14 @@ namespace Sprache.Tests
             }
         }
 
-        //[Fact]
-        //public void CanParseSequence()
-        //{
-        //    var sequence = Parse.Char('a').DelimitedBy(Parse.Char(','));
-        //    var r = sequence.TryParse("a,a,a");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.True(r.Remainder.AtEnd);
-        //}
+        [Fact]
+        public void CanParseSequence()
+        {
+            var sequence = Parse.Char('a').DelimitedBy(Parse.Char(','));
+            var r = sequence.TryParse("a,a,a");
+            Assert.True(r.WasSuccessful);
+            Assert.True(r.Remainder.AtEnd);
+        }
 
         //[Fact]
         //public void FailGracefullyOnSequence()

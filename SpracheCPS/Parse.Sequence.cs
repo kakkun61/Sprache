@@ -6,27 +6,27 @@
 
     partial class Parse
     {
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="parser"></param>
-        ///// <param name="delimiter"></param>
-        ///// <typeparam name="T"></typeparam>
-        ///// <typeparam name="U"></typeparam>
-        ///// <returns></returns>
-        ///// <exception cref="ArgumentNullException"></exception>
-        //public static Parser<IEnumerable<T>> DelimitedBy<T, U>(this Parser<T> parser, Parser<U> delimiter)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
-        //    if (delimiter == null) throw new ArgumentNullException(nameof(delimiter));
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parser"></param>
+        /// <param name="delimiter"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Parser<IEnumerable<T>> DelimitedBy<T, U>(this Parser<T> parser, Parser<U> delimiter)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
+            if (delimiter == null) throw new ArgumentNullException(nameof(delimiter));
 
-        //    return from head in parser.Once()
-        //           from tail in
-        //               (from separator in delimiter
-        //                from item in parser
-        //                select item).Many()
-        //           select head.Concat(tail);
-        //}
+            return from head in parser.Once()
+                   from tail in
+                       (from separator in delimiter
+                        from item in parser
+                        select item).Many()
+                   select head.Concat(tail);
+        }
 
         ///// <summary>
         ///// Fails on the first itemParser failure, if it reads at least one character.
