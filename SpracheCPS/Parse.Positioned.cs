@@ -13,22 +13,10 @@ namespace Sprache
         public static Parser<T> Positioned<T>(this Parser<T> parser) where T : IPositionAware<T>
         {
             return (input, onSuccess, onFailure) =>
-            {
-                return parser(
+                parser(
                     input,
                     (value, remainder) => onSuccess(value.SetPos(Position.FromInput(input), remainder.Position - input.Position), remainder),
                     onFailure);
-            };
-            //return i =>
-            //{
-            //    var r = parser(i);
-
-            //    if (r.WasSuccessful)
-            //    {
-            //        return Result.Success(r.Value.SetPos(Position.FromInput(i), r.Remainder.Position - i.Position), r.Remainder);
-            //    }
-            //    return r;
-            //};
         }
     }
 }
