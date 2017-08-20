@@ -416,16 +416,16 @@ namespace Sprache.Tests
             Assert.True(r.Remainder.AtEnd);
         }
 
-        //[Fact]
-        //public void FailGracefullyOnSequence()
-        //{
-        //    var sequence = Parse.Char('a').XDelimitedBy(Parse.Char(','));
-        //    AssertParser.FailsWith(sequence, "a,a,b", result =>
-        //    {
-        //        Assert.Contains("unexpected 'b'", result.Message);
-        //        Assert.Contains("a", result.Expectations);
-        //    });
-        //}
+        [Fact]
+        public void FailGracefullyOnSequence()
+        {
+            var sequence = Parse.Char('a').XDelimitedBy(Parse.Char(','));
+            AssertParser.FailsWith(sequence, "a,a,b", result =>
+            {
+                Assert.Contains("unexpected 'b'", result.Message);
+                Assert.Contains("a", result.Expectations);
+            });
+        }
 
         //[Fact]
         //public void CanParseContained()

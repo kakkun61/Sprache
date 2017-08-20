@@ -28,27 +28,27 @@
                    select head.Concat(tail);
         }
 
-        ///// <summary>
-        ///// Fails on the first itemParser failure, if it reads at least one character.
-        ///// </summary>
-        ///// <param name="itemParser"></param>
-        ///// <param name="delimiter"></param>
-        ///// <typeparam name="T"></typeparam>
-        ///// <typeparam name="U"></typeparam>
-        ///// <returns></returns>
-        ///// <exception cref="ArgumentNullException"></exception>
-        //public static Parser<IEnumerable<T>> XDelimitedBy<T, U>(this Parser<T> itemParser, Parser<U> delimiter)
-        //{
-        //    if (itemParser == null) throw new ArgumentNullException(nameof(itemParser));
-        //    if (delimiter == null) throw new ArgumentNullException(nameof(delimiter));
+        /// <summary>
+        /// Fails on the first itemParser failure, if it reads at least one character.
+        /// </summary>
+        /// <param name="itemParser"></param>
+        /// <param name="delimiter"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Parser<IEnumerable<T>> XDelimitedBy<T, U>(this Parser<T> itemParser, Parser<U> delimiter)
+        {
+            if (itemParser == null) throw new ArgumentNullException(nameof(itemParser));
+            if (delimiter == null) throw new ArgumentNullException(nameof(delimiter));
 
-        //    return from head in itemParser.Once()
-        //           from tail in
-        //               (from separator in delimiter
-        //                from item in itemParser
-        //                select item).XMany()
-        //           select head.Concat(tail);
-        //}
+            return from head in itemParser.Once()
+                   from tail in
+                       (from separator in delimiter
+                        from item in itemParser
+                        select item).XMany()
+                   select head.Concat(tail);
+        }
 
         /// <summary>
         /// 
