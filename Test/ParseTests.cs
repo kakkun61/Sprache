@@ -49,17 +49,17 @@ namespace Sprache.Tests
             AssertParser.SucceedsWithOne(parser, "c", 'c');
         }
 
-        //[Fact]
-        //public void Parser_OfManyChars_AcceptsEmptyInput()
-        //{
-        //    AssertParser.SucceedsWithAll(Parse.Char('a').Many(), "");
-        //}
+        [Fact]
+        public void Parser_OfManyChars_AcceptsEmptyInput()
+        {
+            AssertParser.SucceedsWithAll(Parse.Char('a').Many(), "");
+        }
 
-        //[Fact]
-        //public void Parser_OfManyChars_AcceptsManyChars()
-        //{
-        //    AssertParser.SucceedsWithAll(Parse.Char('a').Many(), "aaa");
-        //}
+        [Fact]
+        public void Parser_OfManyChars_AcceptsManyChars()
+        {
+            AssertParser.SucceedsWithAll(Parse.Char('a').Many(), "aaa");
+        }
 
         //[Fact]
         //public void Parser_OfAtLeastOneChar_DoesNotAcceptEmptyInput()

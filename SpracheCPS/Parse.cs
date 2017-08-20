@@ -240,35 +240,41 @@ namespace Sprache
             };
         }
 
-        ///// <summary>
-        ///// Parse a stream of elements.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="parser"></param>
-        ///// <returns></returns>
-        ///// <remarks>Implemented imperatively to decrease stack usage.</remarks>
-        //public static Parser<IEnumerable<T>> Many<T>(this Parser<T> parser)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
+        /// <summary>
+        /// Parse a stream of elements.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parser"></param>
+        /// <returns></returns>
+        /// <remarks>Implemented imperatively to decrease stack usage.</remarks>
+        public static Parser<IEnumerable<T>> Many<T>(this Parser<T> parser)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
 
-        //    return i =>
-        //    {
-        //        var remainder = i;
-        //        var result = new List<T>();
-        //        var r = parser(i);
+            return (input, onSuccess, onFailure) =>
+            {
+                var remainder_ = input;
+                var result = new List<T>();
+                OnSuccess<T> onSuccess_ = null;
+                onSuccess_ = (value, remainder) =>
+                {
+                    if (remainder.Equals(remainder_))
+                        return null;
 
-        //        while (r.WasSuccessful)
-        //        {
-        //            if (remainder.Equals(r.Remainder))
-        //                break;
+                    result.Add(value);
+                    remainder_ = remainder;
+                    parser(remainder, onSuccess_, (_remainder, _message, _expectations) => null);
+                    return null;
+                };
 
-        //            result.Add(r.Value);
-        //            remainder = r.Remainder;
-        //            r = parser(remainder);
-        //        }
-        //        return Result.Success<IEnumerable<T>>(result, remainder);
-        //    };
-        //}
+                parser(
+                    input,
+                    onSuccess_,
+                    (remainder, message, expectaions) => null);
+
+                return onSuccess(result, remainder_);
+            };
+        }
 
         ///// <summary>
         ///// Parse a stream of elements, failing if any element is only partially parsed.
