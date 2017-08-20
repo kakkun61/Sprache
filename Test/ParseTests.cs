@@ -218,26 +218,26 @@ namespace Sprache.Tests
             Assert.Equal(5, s.Remainder.Position);
         }
 
-        //[Fact]
-        //public void OptionalParserConsumesInputOnSuccessfulMatch()
-        //{
-        //    var optAbc = Parse.String("abc").Text().Optional();
-        //    var r = optAbc.TryParse("abcd");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.Equal(3, r.Remainder.Position);
-        //    Assert.True(r.Value.IsDefined);
-        //    Assert.Equal("abc", r.Value.Get());
-        //}
+        [Fact]
+        public void OptionalParserConsumesInputOnSuccessfulMatch()
+        {
+            var optAbc = Parse.String("abc").Text().Optional();
+            var r = optAbc.TryParse("abcd");
+            Assert.True(r.WasSuccessful);
+            Assert.Equal(3, r.Remainder.Position);
+            Assert.True(r.Value.IsDefined);
+            Assert.Equal("abc", r.Value.Get());
+        }
 
-        //[Fact]
-        //public void OptionalParserDoesNotConsumeInputOnFailedMatch()
-        //{
-        //    var optAbc = Parse.String("abc").Text().Optional();
-        //    var r = optAbc.TryParse("d");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.Equal(0, r.Remainder.Position);
-        //    Assert.True(r.Value.IsEmpty);
-        //}
+        [Fact]
+        public void OptionalParserDoesNotConsumeInputOnFailedMatch()
+        {
+            var optAbc = Parse.String("abc").Text().Optional();
+            var r = optAbc.TryParse("d");
+            Assert.True(r.WasSuccessful);
+            Assert.Equal(0, r.Remainder.Position);
+            Assert.True(r.Value.IsEmpty);
+        }
 
         //[Fact]
         //public void RegexParserConsumesInputOnSuccessfulMatch()
