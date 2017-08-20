@@ -304,24 +304,29 @@ namespace Sprache
         //    return parser.Once().Then(t1 => parser.XMany().Select(ts => t1.Concat(ts)));
         //}
 
-        ///// <summary>
-        ///// Parse end-of-input.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="parser"></param>
-        ///// <returns></returns>
-        //public static Parser<T> End<T>(this Parser<T> parser)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
+        /// <summary>
+        /// Parse end-of-input.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parser"></param>
+        /// <returns></returns>
+        public static Parser<T> End<T>(this Parser<T> parser)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
 
-        //    return i => parser(i).IfSuccess(s =>
-        //        s.Remainder.AtEnd 
-        //            ? s
-        //            : Result.Failure<T>(
-        //                s.Remainder,
-        //                string.Format("unexpected '{0}'", s.Remainder.Current),
-        //                new[] { "end of input" }));
-        //}
+            return (input, onSuccess, onFailure) =>
+            {
+                return parser(
+                    input,
+                    (value, remainder) =>
+                    {
+                        if (remainder.AtEnd)
+                            return onSuccess(value, remainder);
+                        return onFailure(remainder, string.Format("unexpected '{0}'", remainder.Current), new[] { "end of input" });
+                    },
+                    onFailure);
+            };
+        }
 
         /// <summary>
         /// Take the result of parsing, and project it onto a different domain.
