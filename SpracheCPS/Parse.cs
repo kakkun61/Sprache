@@ -430,37 +430,38 @@ namespace Sprache
         //        f);
         //}
 
-        ///// <summary>
-        ///// Parse first, if it succeeds, return first, otherwise try second.
-        ///// Assumes that the first parsed character will determine the parser chosen (see Try).
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="first"></param>
-        ///// <param name="second"></param>
-        ///// <returns></returns>
-        //public static Parser<T> XOr<T>(this Parser<T> first, Parser<T> second)
-        //{
-        //    if (first == null) throw new ArgumentNullException(nameof(first));
-        //    if (second == null) throw new ArgumentNullException(nameof(second));
+        /// <summary>
+        /// Parse first, if it succeeds, return first, otherwise try second.
+        /// Assumes that the first parsed character will determine the parser chosen (see Try).
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static Parser<T> XOr<T>(this Parser<T> first, Parser<T> second)
+        {
+            if (first == null) throw new ArgumentNullException(nameof(first));
+            if (second == null) throw new ArgumentNullException(nameof(second));
 
-        //    return i => {
-        //        var fr = first(i);
-        //        if (!fr.WasSuccessful)
-        //        {
-        //            // The 'X' part
-        //            if (!fr.Remainder.Equals(i))
-        //                return fr; 
+            return (input, onSuccess, onFailure) =>
+            {
+                OnSuccess<T> onSuccess_ = (value, remainder) =>
+                {
+                    if (remainder.Equals(input))
+                        return second(input, onSuccess, (_remainder, _message, _expectations) => onSuccess(value, remainder));
 
-        //            return second(i).IfFailure(sf => DetermineBestError(fr, sf));
-        //        }
+                    return onSuccess(value, remainder);
+                };
+                OnFailure onFailure_ = (remainder, message, expectations) =>
+                {
+                    if (!remainder.Equals(input))
+                        return onFailure(remainder, message, expectations);
 
-        //        // This handles a zero-length successful application of first.
-        //        if (fr.Remainder.Equals(i))
-        //            return second(i).IfFailure(sf => fr);
-
-        //        return fr;
-        //    };
-        //}
+                    return second(input, onSuccess, DetermineBestError(remainder, message, expectations, onFailure));
+                };
+                return first(input, onSuccess_, onFailure_);
+            };
+        }
 
         // Examines two results presumably obtained at an "Or" junction; returns the result with
         // the most information, or if they apply at the same input position, a union of the results.

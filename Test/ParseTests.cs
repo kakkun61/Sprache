@@ -113,21 +113,21 @@ namespace Sprache.Tests
             AssertParser.SucceedsWithAll(p, "abbbc");
         }
 
-        //[Fact]
-        //public void WhenFirstOptionSucceedsButConsumesNothing_SecondOptionTried()
-        //{
-        //    var p = Parse.Char('a').Many().XOr(Parse.Char('b').Many());
-        //    AssertParser.SucceedsWithAll(p, "bbb");
-        //}
+        [Fact]
+        public void WhenFirstOptionSucceedsButConsumesNothing_SecondOptionTried()
+        {
+            var p = Parse.Char('a').Many().XOr(Parse.Char('b').Many());
+            AssertParser.SucceedsWithAll(p, "bbb");
+        }
 
-        //[Fact]
-        //public void WithXOr_WhenFirstOptionFailsAndConsumesInput_SecondOptionNotTried()
-        //{
-        //    var first = Parse.Char('a').Once().Concat(Parse.Char('b').Once());
-        //    var second = Parse.Char('a').Once();
-        //    var p = first.XOr(second);
-        //    AssertParser.FailsAt(p, "a", 1);
-        //}
+        [Fact]
+        public void WithXOr_WhenFirstOptionFailsAndConsumesInput_SecondOptionNotTried()
+        {
+            var first = Parse.Char('a').Once().Concat(Parse.Char('b').Once());
+            var second = Parse.Char('a').Once();
+            var p = first.XOr(second);
+            AssertParser.FailsAt(p, "a", 1);
+        }
 
         [Fact]
         public void WithOr_WhenFirstOptionFailsAndConsumesInput_SecondOptionTried()
