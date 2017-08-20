@@ -410,32 +410,24 @@ namespace Sprache
         //    return characters.Select(chs => new string(chs.ToArray()));
         //}
 
-        ///// <summary>
-        ///// Parse first, if it succeeds, return first, otherwise try second.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="first"></param>
-        ///// <param name="second"></param>
-        ///// <returns></returns>
-        //public static Parser<T> Or<T>(this Parser<T> first, Parser<T> second)
-        //{
-        //    if (first == null) throw new ArgumentNullException(nameof(first));
-        //    if (second == null) throw new ArgumentNullException(nameof(second));
+        /// <summary>
+        /// Parse first, if it succeeds, return first, otherwise try second.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static Parser<T> Or<T>(this Parser<T> first, Parser<T> second)
+        {
+            if (first == null) throw new ArgumentNullException(nameof(first));
+            if (second == null) throw new ArgumentNullException(nameof(second));
 
-        //    return i =>
-        //    {
-        //        var fr = first(i);
-        //        if (!fr.WasSuccessful)
-        //        {
-        //            return second(i).IfFailure(sf => DetermineBestError(fr, sf));
-        //        }
-
-        //        if (fr.Remainder.Equals(i))
-        //            return second(i).IfFailure(sf => fr);
-
-        //        return fr;
-        //    };
-        //}
+            return (input, onSuccess, onFailure) => {
+                OnFailure onFailure_ = (firstRemainder, firstMessage, firstExpectations) =>
+                        second(input, onSuccess, DetermineBestError(firstRemainder, firstMessage, firstExpectations, onFailure));
+                return first(input, onSuccess, onFailure_);
+            };
+        }
 
         ///// <summary>
         ///// Names part of the grammar for help with error messages.
@@ -486,21 +478,21 @@ namespace Sprache
         //    };
         //}
 
-        //// Examines two results presumably obtained at an "Or" junction; returns the result with
-        //// the most information, or if they apply at the same input position, a union of the results.
-        //static IResult<T> DetermineBestError<T>(IResult<T> firstFailure, IResult<T> secondFailure)
-        //{
-        //    if (secondFailure.Remainder.Position > firstFailure.Remainder.Position)
-        //        return secondFailure;
+        // Examines two results presumably obtained at an "Or" junction; returns the result with
+        // the most information, or if they apply at the same input position, a union of the results.
+        static OnFailure DetermineBestError(IInput firstRemainder, string firstMessage, IEnumerable<string> firstExpectations, OnFailure onFailure)
+        {
+            return (secondRemainder, secondMessage, secondExpectation) =>
+            {
+                if (firstRemainder.Position > secondRemainder.Position)
+                    return onFailure(secondRemainder, secondMessage, secondExpectation);
 
-        //    if (secondFailure.Remainder.Position == firstFailure.Remainder.Position)
-        //        return Result.Failure<T>(
-        //            firstFailure.Remainder,
-        //            firstFailure.Message,
-        //            firstFailure.Expectations.Union(secondFailure.Expectations));
+                if (secondRemainder.Position == firstRemainder.Position)
+                    return onFailure(firstRemainder, firstMessage, firstExpectations.Union(secondExpectation));
 
-        //    return firstFailure;
-        //}
+                return onFailure(firstRemainder, firstMessage, firstExpectations);
+            };
+        }
 
         /// <summary>
         /// Parse a stream of elements containing only one item.
@@ -515,20 +507,20 @@ namespace Sprache
             return parser.Select(r => (IEnumerable<T>)new[] { r });
         }
 
-        ///// <summary>
-        ///// Concatenate two streams of elements.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="first"></param>
-        ///// <param name="second"></param>
-        ///// <returns></returns>
-        //public static Parser<IEnumerable<T>> Concat<T>(this Parser<IEnumerable<T>> first, Parser<IEnumerable<T>> second)
-        //{
-        //    if (first == null) throw new ArgumentNullException(nameof(first));
-        //    if (second == null) throw new ArgumentNullException(nameof(second));
+        /// <summary>
+        /// Concatenate two streams of elements.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static Parser<IEnumerable<T>> Concat<T>(this Parser<IEnumerable<T>> first, Parser<IEnumerable<T>> second)
+        {
+            if (first == null) throw new ArgumentNullException(nameof(first));
+            if (second == null) throw new ArgumentNullException(nameof(second));
 
-        //    return first.Then(f => second.Select(f.Concat));
-        //}
+            return first.Then(f => second.Select(f.Concat));
+        }
 
         /// <summary>
         /// Succeed immediately and return value.

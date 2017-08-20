@@ -129,14 +129,14 @@ namespace Sprache.Tests
         //    AssertParser.FailsAt(p, "a", 1);
         //}
 
-        //[Fact]
-        //public void WithOr_WhenFirstOptionFailsAndConsumesInput_SecondOptionTried()
-        //{
-        //    var first = Parse.Char('a').Once().Concat(Parse.Char('b').Once());
-        //    var second = Parse.Char('a').Once();
-        //    var p = first.Or(second);
-        //    AssertParser.SucceedsWithAll(p, "a");
-        //}
+        [Fact]
+        public void WithOr_WhenFirstOptionFailsAndConsumesInput_SecondOptionTried()
+        {
+            var first = Parse.Char('a').Once().Concat(Parse.Char('b').Once());
+            var second = Parse.Char('a').Once();
+            var p = first.Or(second);
+            AssertParser.SucceedsWithAll(p, "a");
+        }
 
         //[Fact]
         //public void ParsesString_AsSequenceOfChars()
