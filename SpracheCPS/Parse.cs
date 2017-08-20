@@ -178,22 +178,22 @@ namespace Sprache
         ///// </summary>
         //public static readonly Parser<char> Numeric = Char(char.IsNumber, "numeric character");
 
-        ///// <summary>
-        ///// Parse a string of characters.
-        ///// </summary>
-        ///// <param name="s"></param>
-        ///// <returns></returns>
-        //public static Parser<IEnumerable<char>> String(string s)
-        //{
-        //    if (s == null) throw new ArgumentNullException(nameof(s));
+        /// <summary>
+        /// Parse a string of characters.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static Parser<IEnumerable<char>> String(string s)
+        {
+            if (s == null) throw new ArgumentNullException(nameof(s));
 
-        //    return s
-        //        .ToEnumerable()
-        //        .Select(Char)
-        //        .Aggregate(Return(Enumerable.Empty<char>()),
-        //            (a, p) => a.Concat(p.Once()))
-        //        .Named(s);
-        //}
+            return s
+                .ToEnumerable()
+                .Select(Char)
+                .Aggregate(Return(Enumerable.Empty<char>()),
+                    (a, p) => a.Concat(p.Once()))
+                .Named(s);
+        }
 
         ///// <summary>
         ///// Constructs a parser that will fail if the given parser succeeds,
@@ -413,22 +413,31 @@ namespace Sprache
             };
         }
 
-        ///// <summary>
-        ///// Names part of the grammar for help with error messages.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="parser"></param>
-        ///// <param name="name"></param>
-        ///// <returns></returns>
-        //public static Parser<T> Named<T>(this Parser<T> parser, string name)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
-        //    if (name == null) throw new ArgumentNullException(nameof(name));
+        /// <summary>
+        /// Names part of the grammar for help with error messages.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parser"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static Parser<T> Named<T>(this Parser<T> parser, string name)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
+            if (name == null) throw new ArgumentNullException(nameof(name));
 
-        //    return i => parser(i).IfFailure(f => f.Remainder.Equals(i) ?
-        //        Result.Failure<T>(f.Remainder, f.Message, new[] { name }) :
-        //        f);
-        //}
+            return (input, onSuccess, onFailure) =>
+            {
+                return parser(input, onSuccess, (remainder, message, expectations) =>
+                {
+                    return onFailure(
+                        remainder,
+                        message,
+                        remainder.Equals(input)?
+                            new[] { name }:
+                            expectations);
+                });
+            };
+        }
 
         /// <summary>
         /// Parse first, if it succeeds, return first, otherwise try second.

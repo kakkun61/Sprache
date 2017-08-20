@@ -138,12 +138,12 @@ namespace Sprache.Tests
             AssertParser.SucceedsWithAll(p, "a");
         }
 
-        //[Fact]
-        //public void ParsesString_AsSequenceOfChars()
-        //{
-        //    var p = Parse.String("abc");
-        //    AssertParser.SucceedsWithAll(p, "abc");
-        //}
+        [Fact]
+        public void ParsesString_AsSequenceOfChars()
+        {
+            var p = Parse.String("abc");
+            AssertParser.SucceedsWithAll(p, "abc");
+        }
 
         //static readonly Parser<IEnumerable<char>> ASeq =
         //    (from first in Parse.Ref(() => ASeq)
