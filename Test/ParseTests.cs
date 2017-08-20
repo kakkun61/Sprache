@@ -390,22 +390,22 @@ namespace Sprache.Tests
             Assert.Equal(5, r.Remainder.Position);
         }
 
-        //[Fact]
-        //public void RepeatParserErrorMessagesAreReadable()
-        //{
-        //    var repeated = Parse.Char('a').Repeat(4, 5);
+        [Fact]
+        public void RepeatParserErrorMessagesAreReadable()
+        {
+            var repeated = Parse.Char('a').Repeat(4, 5);
 
-        //    var expectedMessage = "Parsing failure: Unexpected 'end of input'; expected 'a' between 4 and 5 times, but found 3";
+            var expectedMessage = "Parsing failure: Unexpected 'end of input'; expected 'a' between 4 and 5 times, but found 3";
 
-        //    try
-        //    {
-        //        var r = repeated.Parse("aaa");
-        //    }
-        //    catch(ParseException ex)
-        //    {
-        //        Assert.StartsWith(expectedMessage, ex.Message);
-        //    }
-        //}
+            try
+            {
+                var r = repeated.Parse("aaa");
+            }
+            catch (ParseException ex)
+            {
+                Assert.StartsWith(expectedMessage, ex.Message);
+            }
+        }
 
         //[Fact]
         //public void CanParseSequence()

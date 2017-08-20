@@ -35,25 +35,25 @@ namespace Sprache
             return new Result<T>(parser(new Input(input), Result.Success<T>, Result.Failure<object>));
         }
 
-        ///// <summary>
-        ///// Parses the specified input string.
-        ///// </summary>
-        ///// <typeparam name="T">The type of the result.</typeparam>
-        ///// <param name="parser">The parser.</param>
-        ///// <param name="input">The input.</param>
-        ///// <returns>The result of the parser.</returns>
-        ///// <exception cref="Sprache.ParseException">It contains the details of the parsing error.</exception>
-        //public static T Parse<T>(this Parser<T> parser, string input)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
-        //    if (input == null) throw new ArgumentNullException(nameof(input));
+        /// <summary>
+        /// Parses the specified input string.
+        /// </summary>
+        /// <typeparam name="T">The type of the result.</typeparam>
+        /// <param name="parser">The parser.</param>
+        /// <param name="input">The input.</param>
+        /// <returns>The result of the parser.</returns>
+        /// <exception cref="Sprache.ParseException">It contains the details of the parsing error.</exception>
+        public static T Parse<T>(this Parser<T> parser, string input)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
+            if (input == null) throw new ArgumentNullException(nameof(input));
 
-        //    var result = parser.TryParse(input);
-            
-        //    if(result.WasSuccessful)
-        //        return result.Value;
+            var result = parser.TryParse(input);
 
-        //    throw new ParseException(result.ToString());
-        //}
+            if (result.WasSuccessful)
+                return result.Value;
+
+            throw new ParseException(result.ToString());
+        }
     }
 }
