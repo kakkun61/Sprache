@@ -329,66 +329,66 @@ namespace Sprache.Tests
             AssertParser.SucceedsWith(ab, "Ab", m => Assert.Equal("Ab", m));
         }
 
-        //[Fact]
-        //public void RepeatParserConsumeInputOnSuccessfulMatch()
-        //{
-        //    var repeated = Parse.Char('a').Repeat(3);
-        //    var r = repeated.TryParse("aaabbb");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.Equal(3, r.Remainder.Position);
-        //}
+        [Fact]
+        public void RepeatParserConsumeInputOnSuccessfulMatch()
+        {
+            var repeated = Parse.Char('a').Repeat(3);
+            var r = repeated.TryParse("aaabbb");
+            Assert.True(r.WasSuccessful);
+            Assert.Equal(3, r.Remainder.Position);
+        }
 
-        //[Fact]
-        //public void RepeatParserDoesntConsumeInputOnFailedMatch()
-        //{
-        //    var repeated = Parse.Char('a').Repeat(3);
-        //    var r = repeated.TryParse("bbbaaa");
-        //    Assert.True(!r.WasSuccessful);
-        //    Assert.Equal(0, r.Remainder.Position);
-        //}
+        [Fact]
+        public void RepeatParserDoesntConsumeInputOnFailedMatch()
+        {
+            var repeated = Parse.Char('a').Repeat(3);
+            var r = repeated.TryParse("bbbaaa");
+            Assert.True(!r.WasSuccessful);
+            Assert.Equal(0, r.Remainder.Position);
+        }
 
-        //[Fact]
-        //public void RepeatParserCanParseWithCountOfZero()
-        //{
-        //    var repeated = Parse.Char('a').Repeat(0);
-        //    var r = repeated.TryParse("bbb");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.Equal(0, r.Remainder.Position);
-        //}
+        [Fact]
+        public void RepeatParserCanParseWithCountOfZero()
+        {
+            var repeated = Parse.Char('a').Repeat(0);
+            var r = repeated.TryParse("bbb");
+            Assert.True(r.WasSuccessful);
+            Assert.Equal(0, r.Remainder.Position);
+        }
 
-        //[Fact]
-        //public void RepeatParserCanParseAMinimumNumberOfValues()
-        //{
-        //    var repeated = Parse.Char('a').Repeat(4, 5);
+        [Fact]
+        public void RepeatParserCanParseAMinimumNumberOfValues()
+        {
+            var repeated = Parse.Char('a').Repeat(4, 5);
 
-        //    // Test failure.
-        //    var r = repeated.TryParse("aaa");
-        //    Assert.False(r.WasSuccessful);
-        //    Assert.Equal(0, r.Remainder.Position);
+            // Test failure.
+            var r = repeated.TryParse("aaa");
+            Assert.False(r.WasSuccessful);
+            Assert.Equal(0, r.Remainder.Position);
 
-        //    // Test success.
-        //    r = repeated.TryParse("aaaa");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.Equal(4, r.Remainder.Position);
-        //}
+            // Test success.
+            r = repeated.TryParse("aaaa");
+            Assert.True(r.WasSuccessful);
+            Assert.Equal(4, r.Remainder.Position);
+        }
 
-        //[Fact]
-        //public void RepeatParserCanParseAMaximumNumberOfValues()
-        //{
-        //    var repeated = Parse.Char('a').Repeat(4, 5);
+        [Fact]
+        public void RepeatParserCanParseAMaximumNumberOfValues()
+        {
+            var repeated = Parse.Char('a').Repeat(4, 5);
 
-        //    var r = repeated.TryParse("aaaa");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.Equal(4, r.Remainder.Position);
+            var r = repeated.TryParse("aaaa");
+            Assert.True(r.WasSuccessful);
+            Assert.Equal(4, r.Remainder.Position);
 
-        //    r = repeated.TryParse("aaaaa");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.Equal(5, r.Remainder.Position);
+            r = repeated.TryParse("aaaaa");
+            Assert.True(r.WasSuccessful);
+            Assert.Equal(5, r.Remainder.Position);
 
-        //    r = repeated.TryParse("aaaaaa");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.Equal(5, r.Remainder.Position);
-        //}
+            r = repeated.TryParse("aaaaaa");
+            Assert.True(r.WasSuccessful);
+            Assert.Equal(5, r.Remainder.Position);
+        }
 
         //[Fact]
         //public void RepeatParserErrorMessagesAreReadable()
