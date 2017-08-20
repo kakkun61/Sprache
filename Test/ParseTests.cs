@@ -61,23 +61,23 @@ namespace Sprache.Tests
             AssertParser.SucceedsWithAll(Parse.Char('a').Many(), "aaa");
         }
 
-        //[Fact]
-        //public void Parser_OfAtLeastOneChar_DoesNotAcceptEmptyInput()
-        //{
-        //    AssertParser.Fails(Parse.Char('a').AtLeastOnce(), "");
-        //}
+        [Fact]
+        public void Parser_OfAtLeastOneChar_DoesNotAcceptEmptyInput()
+        {
+            AssertParser.Fails(Parse.Char('a').AtLeastOnce(), "");
+        }
 
-        //[Fact]
-        //public void Parser_OfAtLeastOneChar_AcceptsOneChar()
-        //{
-        //    AssertParser.SucceedsWithAll(Parse.Char('a').AtLeastOnce(), "a");
-        //}
+        [Fact]
+        public void Parser_OfAtLeastOneChar_AcceptsOneChar()
+        {
+            AssertParser.SucceedsWithAll(Parse.Char('a').AtLeastOnce(), "a");
+        }
 
-        //[Fact]
-        //public void Parser_OfAtLeastOneChar_AcceptsManyChars()
-        //{
-        //    AssertParser.SucceedsWithAll(Parse.Char('a').AtLeastOnce(), "aaa");
-        //}
+        [Fact]
+        public void Parser_OfAtLeastOneChar_AcceptsManyChars()
+        {
+            AssertParser.SucceedsWithAll(Parse.Char('a').AtLeastOnce(), "aaa");
+        }
 
         //[Fact]
         //public void ConcatenatingParsers_ConcatenatesResults()
