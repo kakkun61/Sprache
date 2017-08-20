@@ -239,24 +239,24 @@ namespace Sprache.Tests
             Assert.True(r.Value.IsEmpty);
         }
 
-        //[Fact]
-        //public void RegexParserConsumesInputOnSuccessfulMatch()
-        //{
-        //    var digits = Parse.Regex(@"\d+");
-        //    var r = digits.TryParse("123d");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.Equal("123", r.Value);
-        //    Assert.Equal(3, r.Remainder.Position);
-        //}
+        [Fact]
+        public void RegexParserConsumesInputOnSuccessfulMatch()
+        {
+            var digits = Parse.Regex(@"\d+");
+            var r = digits.TryParse("123d");
+            Assert.True(r.WasSuccessful);
+            Assert.Equal("123", r.Value);
+            Assert.Equal(3, r.Remainder.Position);
+        }
 
-        //[Fact]
-        //public void RegexParserDoesNotConsumeInputOnFailedMatch()
-        //{
-        //    var digits = Parse.Regex(@"\d+");
-        //    var r = digits.TryParse("d123");
-        //    Assert.False(r.WasSuccessful);
-        //    Assert.Equal(0, r.Remainder.Position);
-        //}
+        [Fact]
+        public void RegexParserDoesNotConsumeInputOnFailedMatch()
+        {
+            var digits = Parse.Regex(@"\d+");
+            var r = digits.TryParse("d123");
+            Assert.False(r.WasSuccessful);
+            Assert.Equal(0, r.Remainder.Position);
+        }
 
         [Fact]
         public void RegexMatchParserConsumesInputOnSuccessfulMatch()
