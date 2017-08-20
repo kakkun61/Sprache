@@ -188,17 +188,17 @@ namespace Sprache.Tests
             AssertParser.FailsAt(p, "ababaf", 4);
         }
 
-        //[Fact]
-        //public void WithXMany_WhenLastElementFails_FailureReportedAtLastElement()
-        //{
-        //    var ab = from a in Parse.Char('a')
-        //             from b in Parse.Char('b')
-        //             select "ab";
+        [Fact]
+        public void WithXMany_WhenLastElementFails_FailureReportedAtLastElement()
+        {
+            var ab = from a in Parse.Char('a')
+                     from b in Parse.Char('b')
+                     select "ab";
 
-        //    var p = ab.XMany().End();
+            var p = ab.XMany().End();
 
-        //    AssertParser.FailsAt(p, "ababaf", 5);
-        //}
+            AssertParser.FailsAt(p, "ababaf", 5);
+        }
 
         //[Fact]
         //public void ExceptStopsConsumingInputWhenExclusionParsed()

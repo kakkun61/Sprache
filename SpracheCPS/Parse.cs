@@ -254,28 +254,28 @@ namespace Sprache
             return parser.AtLeastOnce().Or(Return(Enumerable.Empty<T>()));
         }
 
-        ///// <summary>
-        ///// Parse a stream of elements, failing if any element is only partially parsed.
-        ///// </summary>
-        ///// <typeparam name="T">The type of element to parse.</typeparam>
-        ///// <param name="parser">A parser that matches a single element.</param>
-        ///// <returns>A <see cref="Parser{T}"/> that matches the sequence.</returns>
-        ///// <remarks>
-        ///// <para>
-        ///// Using <seealso cref="XMany{T}(Parser{T})"/> may be preferable to <seealso cref="Many{T}(Parser{T})"/>
-        ///// where the first character of each match identified by <paramref name="parser"/>
-        ///// is sufficient to determine whether the entire match should succeed. The X*
-        ///// methods typically give more helpful errors and are easier to debug than their
-        ///// unqualified counterparts.
-        ///// </para>
-        ///// </remarks>
-        ///// <seealso cref="XOr"/>
-        //public static Parser<IEnumerable<T>> XMany<T>(this Parser<T> parser)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
+        /// <summary>
+        /// Parse a stream of elements, failing if any element is only partially parsed.
+        /// </summary>
+        /// <typeparam name="T">The type of element to parse.</typeparam>
+        /// <param name="parser">A parser that matches a single element.</param>
+        /// <returns>A <see cref="Parser{T}"/> that matches the sequence.</returns>
+        /// <remarks>
+        /// <para>
+        /// Using <seealso cref="XMany{T}(Parser{T})"/> may be preferable to <seealso cref="Many{T}(Parser{T})"/>
+        /// where the first character of each match identified by <paramref name="parser"/>
+        /// is sufficient to determine whether the entire match should succeed. The X*
+        /// methods typically give more helpful errors and are easier to debug than their
+        /// unqualified counterparts.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="XOr"/>
+        public static Parser<IEnumerable<T>> XMany<T>(this Parser<T> parser)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
 
-        //    return parser.Many().Then(m => parser.Once().XOr(Return(m)));
-        //}
+            return parser.Many().Then(m => parser.Once().XOr(Return(m)));
+        }
 
         /// <summary>
         /// TryParse a stream of elements with at least one item.
