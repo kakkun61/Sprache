@@ -37,16 +37,16 @@ namespace Sprache
             };
         }
 
-        ///// <summary>
-        ///// Parse a single character except those matching <paramref name="predicate"/>.
-        ///// </summary>
-        ///// <param name="predicate">Characters not to match.</param>
-        ///// <param name="description">Description of characters that don't match.</param>
-        ///// <returns>A parser for characters except those matching <paramref name="predicate"/>.</returns>
-        //public static Parser<char> CharExcept(Predicate<char> predicate, string description)
-        //{
-        //    return Char(c => !predicate(c), "any character except " + description);
-        //}
+        /// <summary>
+        /// Parse a single character except those matching <paramref name="predicate"/>.
+        /// </summary>
+        /// <param name="predicate">Characters not to match.</param>
+        /// <param name="description">Description of characters that don't match.</param>
+        /// <returns>A parser for characters except those matching <paramref name="predicate"/>.</returns>
+        public static Parser<char> CharExcept(Predicate<char> predicate, string description)
+        {
+            return Char(c => !predicate(c), "any character except " + description);
+        }
 
         /// <summary>
         /// Parse a single character c.
@@ -80,36 +80,36 @@ namespace Sprache
         }
 
 
-        ///// <summary>
-        ///// Parse a single character except c.
-        ///// </summary>
-        ///// <param name="c"></param>
-        ///// <returns></returns>
-        //public static Parser<char> CharExcept(char c)
-        //{
-        //    return CharExcept(ch => c == ch, char.ToString(c));
-        //}
+        /// <summary>
+        /// Parse a single character except c.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static Parser<char> CharExcept(char c)
+        {
+            return CharExcept(ch => c == ch, char.ToString(c));
+        }
 
-        ///// <summary>
-        ///// Parses a single character except for those in the given parameters
-        ///// </summary>
-        ///// <param name="c"></param>
-        ///// <returns></returns>
-        //public static Parser<char> CharExcept(IEnumerable<char> c)
-        //{
-        //    var chars = c as char[] ?? c.ToArray();
-        //    return CharExcept(chars.Contains, StringExtensions.Join("|", chars));
-        //}
+        /// <summary>
+        /// Parses a single character except for those in the given parameters
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static Parser<char> CharExcept(IEnumerable<char> c)
+        {
+            var chars = c as char[] ?? c.ToArray();
+            return CharExcept(chars.Contains, StringExtensions.Join("|", chars));
+        }
 
-        ///// <summary>
-        ///// Parses a single character except for those in c
-        ///// </summary>  
-        ///// <param name="c"></param>
-        ///// <returns></returns> 
-        //public static Parser<char> CharExcept(string c)
-        //{
-        //    return CharExcept(c.ToEnumerable().Contains, StringExtensions.Join("|", c.ToEnumerable()));
-        //}
+        /// <summary>
+        /// Parses a single character except for those in c
+        /// </summary>  
+        /// <param name="c"></param>
+        /// <returns></returns> 
+        public static Parser<char> CharExcept(string c)
+        {
+            return CharExcept(c.ToEnumerable().Contains, StringExtensions.Join("|", c.ToEnumerable()));
+        }
 
         /// <summary>
         /// Parse a single character in a case-insensitive fashion.
@@ -143,35 +143,35 @@ namespace Sprache
         /// </summary>
         public static readonly Parser<char> AnyChar = Char(c => true, "any character");
 
-        ///// <summary>
-        ///// Parse a whitespace.
-        ///// </summary>
-        //public static readonly Parser<char> WhiteSpace = Char(char.IsWhiteSpace, "whitespace");
+        /// <summary>
+        /// Parse a whitespace.
+        /// </summary>
+        public static readonly Parser<char> WhiteSpace = Char(char.IsWhiteSpace, "whitespace");
 
-        ///// <summary>
-        ///// Parse a digit.
-        ///// </summary>
-        //public static readonly Parser<char> Digit = Char(char.IsDigit, "digit");
+        /// <summary>
+        /// Parse a digit.
+        /// </summary>
+        public static readonly Parser<char> Digit = Char(char.IsDigit, "digit");
 
-        ///// <summary>
-        ///// Parse a letter.
-        ///// </summary>
-        //public static readonly Parser<char> Letter = Char(char.IsLetter, "letter");
+        /// <summary>
+        /// Parse a letter.
+        /// </summary>
+        public static readonly Parser<char> Letter = Char(char.IsLetter, "letter");
 
-        ///// <summary>
-        ///// Parse a letter or digit.
-        ///// </summary>
-        //public static readonly Parser<char> LetterOrDigit = Char(char.IsLetterOrDigit, "letter or digit");
+        /// <summary>
+        /// Parse a letter or digit.
+        /// </summary>
+        public static readonly Parser<char> LetterOrDigit = Char(char.IsLetterOrDigit, "letter or digit");
 
-        ///// <summary>
-        ///// Parse a lowercase letter.
-        ///// </summary>
-        //public static readonly Parser<char> Lower = Char(char.IsLower, "lowercase letter");
+        /// <summary>
+        /// Parse a lowercase letter.
+        /// </summary>
+        public static readonly Parser<char> Lower = Char(char.IsLower, "lowercase letter");
 
-        ///// <summary>
-        ///// Parse an uppercase letter.
-        ///// </summary>
-        //public static readonly Parser<char> Upper = Char(char.IsUpper, "uppercase letter");
+        /// <summary>
+        /// Parse an uppercase letter.
+        /// </summary>
+        public static readonly Parser<char> Upper = Char(char.IsUpper, "uppercase letter");
 
         /// <summary>
         /// Parse a numeric character.
@@ -338,21 +338,21 @@ namespace Sprache
             return parser.Then(t => Return(convert(t)));
         }
 
-        ///// <summary>
-        ///// Parse the token, embedded in any amount of whitespace characters.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="parser"></param>
-        ///// <returns></returns>
-        //public static Parser<T> Token<T>(this Parser<T> parser)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
+        /// <summary>
+        /// Parse the token, embedded in any amount of whitespace characters.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parser"></param>
+        /// <returns></returns>
+        public static Parser<T> Token<T>(this Parser<T> parser)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
 
-        //    return from leading in WhiteSpace.Many()
-        //           from item in parser
-        //           from trailing in WhiteSpace.Many()
-        //           select item;
-        //}
+            return from leading in WhiteSpace.Many()
+                   from item in parser
+                   from trailing in WhiteSpace.Many()
+                   select item;
+        }
 
         /// <summary>
         /// Refer to another parser indirectly. This allows circular compile-time dependency between parsers.
@@ -627,118 +627,118 @@ namespace Sprache
             return parser.Then(t => selector(t).Select(u => projector(t, u)));
         }
 
-        ///// <summary>
-        ///// Chain a left-associative operator.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <typeparam name="TOp"></typeparam>
-        ///// <param name="op"></param>
-        ///// <param name="operand"></param>
-        ///// <param name="apply"></param>
-        ///// <returns></returns>
-        //public static Parser<T> ChainOperator<T, TOp>(
-        //    Parser<TOp> op,
-        //    Parser<T> operand,
-        //    Func<TOp, T, T, T> apply)
-        //{
-        //    if (op == null) throw new ArgumentNullException(nameof(op));
-        //    if (operand == null) throw new ArgumentNullException(nameof(operand));
-        //    if (apply == null) throw new ArgumentNullException(nameof(apply));
-        //    return operand.Then(first => ChainOperatorRest(first, op, operand, apply, Or));
-        //}
+        /// <summary>
+        /// Chain a left-associative operator.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TOp"></typeparam>
+        /// <param name="op"></param>
+        /// <param name="operand"></param>
+        /// <param name="apply"></param>
+        /// <returns></returns>
+        public static Parser<T> ChainOperator<T, TOp>(
+            Parser<TOp> op,
+            Parser<T> operand,
+            Func<TOp, T, T, T> apply)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            if (operand == null) throw new ArgumentNullException(nameof(operand));
+            if (apply == null) throw new ArgumentNullException(nameof(apply));
+            return operand.Then(first => ChainOperatorRest(first, op, operand, apply, Or));
+        }
 
-        ///// <summary>
-        ///// Chain a left-associative operator.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <typeparam name="TOp"></typeparam>
-        ///// <param name="op"></param>
-        ///// <param name="operand"></param>
-        ///// <param name="apply"></param>
-        ///// <returns></returns>
-        //public static Parser<T> XChainOperator<T, TOp>(
-        //    Parser<TOp> op,
-        //    Parser<T> operand,
-        //    Func<TOp, T, T, T> apply)
-        //{
-        //    if (op == null) throw new ArgumentNullException(nameof(op));
-        //    if (operand == null) throw new ArgumentNullException(nameof(operand));
-        //    if (apply == null) throw new ArgumentNullException(nameof(apply));
-        //    return operand.Then(first => ChainOperatorRest(first, op, operand, apply, XOr));
-        //}
+        /// <summary>
+        /// Chain a left-associative operator.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TOp"></typeparam>
+        /// <param name="op"></param>
+        /// <param name="operand"></param>
+        /// <param name="apply"></param>
+        /// <returns></returns>
+        public static Parser<T> XChainOperator<T, TOp>(
+            Parser<TOp> op,
+            Parser<T> operand,
+            Func<TOp, T, T, T> apply)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            if (operand == null) throw new ArgumentNullException(nameof(operand));
+            if (apply == null) throw new ArgumentNullException(nameof(apply));
+            return operand.Then(first => ChainOperatorRest(first, op, operand, apply, XOr));
+        }
 
-        //static Parser<T> ChainOperatorRest<T, TOp>(
-        //    T firstOperand,
-        //    Parser<TOp> op,
-        //    Parser<T> operand,
-        //    Func<TOp, T, T, T> apply,
-        //    Func<Parser<T>, Parser<T>, Parser<T>> or)
-        //{
-        //    if (op == null) throw new ArgumentNullException(nameof(op));
-        //    if (operand == null) throw new ArgumentNullException(nameof(operand));
-        //    if (apply == null) throw new ArgumentNullException(nameof(apply));
-        //    return or(op.Then(opvalue =>
-        //                  operand.Then(operandValue =>
-        //                      ChainOperatorRest(apply(opvalue, firstOperand, operandValue), op, operand, apply, or))),
-        //              Return(firstOperand));
-        //}
+        static Parser<T> ChainOperatorRest<T, TOp>(
+            T firstOperand,
+            Parser<TOp> op,
+            Parser<T> operand,
+            Func<TOp, T, T, T> apply,
+            Func<Parser<T>, Parser<T>, Parser<T>> or)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            if (operand == null) throw new ArgumentNullException(nameof(operand));
+            if (apply == null) throw new ArgumentNullException(nameof(apply));
+            return or(op.Then(opvalue =>
+                          operand.Then(operandValue =>
+                              ChainOperatorRest(apply(opvalue, firstOperand, operandValue), op, operand, apply, or))),
+                      Return(firstOperand));
+        }
 
-        ///// <summary>
-        ///// Chain a right-associative operator.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <typeparam name="TOp"></typeparam>
-        ///// <param name="op"></param>
-        ///// <param name="operand"></param>
-        ///// <param name="apply"></param>
-        ///// <returns></returns>
-        //public static Parser<T> ChainRightOperator<T, TOp>(
-        //    Parser<TOp> op,
-        //    Parser<T> operand,
-        //    Func<TOp, T, T, T> apply)
-        //{
-        //    if (op == null) throw new ArgumentNullException(nameof(op));
-        //    if (operand == null) throw new ArgumentNullException(nameof(operand));
-        //    if (apply == null) throw new ArgumentNullException(nameof(apply));
-        //    return operand.Then(first => ChainRightOperatorRest(first, op, operand, apply, Or));
-        //}
+        /// <summary>
+        /// Chain a right-associative operator.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TOp"></typeparam>
+        /// <param name="op"></param>
+        /// <param name="operand"></param>
+        /// <param name="apply"></param>
+        /// <returns></returns>
+        public static Parser<T> ChainRightOperator<T, TOp>(
+            Parser<TOp> op,
+            Parser<T> operand,
+            Func<TOp, T, T, T> apply)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            if (operand == null) throw new ArgumentNullException(nameof(operand));
+            if (apply == null) throw new ArgumentNullException(nameof(apply));
+            return operand.Then(first => ChainRightOperatorRest(first, op, operand, apply, Or));
+        }
 
-        ///// <summary>
-        ///// Chain a right-associative operator.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <typeparam name="TOp"></typeparam>
-        ///// <param name="op"></param>
-        ///// <param name="operand"></param>
-        ///// <param name="apply"></param>
-        ///// <returns></returns>
-        //public static Parser<T> XChainRightOperator<T, TOp>(
-        //    Parser<TOp> op,
-        //    Parser<T> operand,
-        //    Func<TOp, T, T, T> apply)
-        //{
-        //    if (op == null) throw new ArgumentNullException(nameof(op));
-        //    if (operand == null) throw new ArgumentNullException(nameof(operand));
-        //    if (apply == null) throw new ArgumentNullException(nameof(apply));
-        //    return operand.Then(first => ChainRightOperatorRest(first, op, operand, apply, XOr));
-        //}
+        /// <summary>
+        /// Chain a right-associative operator.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TOp"></typeparam>
+        /// <param name="op"></param>
+        /// <param name="operand"></param>
+        /// <param name="apply"></param>
+        /// <returns></returns>
+        public static Parser<T> XChainRightOperator<T, TOp>(
+            Parser<TOp> op,
+            Parser<T> operand,
+            Func<TOp, T, T, T> apply)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            if (operand == null) throw new ArgumentNullException(nameof(operand));
+            if (apply == null) throw new ArgumentNullException(nameof(apply));
+            return operand.Then(first => ChainRightOperatorRest(first, op, operand, apply, XOr));
+        }
 
-        //static Parser<T> ChainRightOperatorRest<T, TOp>(
-        //    T lastOperand,
-        //    Parser<TOp> op,
-        //    Parser<T> operand,
-        //    Func<TOp, T, T, T> apply,
-        //    Func<Parser<T>, Parser<T>, Parser<T>> or)
-        //{
-        //    if (op == null) throw new ArgumentNullException(nameof(op));
-        //    if (operand == null) throw new ArgumentNullException(nameof(operand));
-        //    if (apply == null) throw new ArgumentNullException(nameof(apply));
-        //    return or(op.Then(opvalue =>
-        //                operand.Then(operandValue =>
-        //                    ChainRightOperatorRest(operandValue, op, operand, apply, or)).Then(r =>
-        //                        Return(apply(opvalue, lastOperand, r)))),
-        //              Return(lastOperand));
-        //}
+        static Parser<T> ChainRightOperatorRest<T, TOp>(
+            T lastOperand,
+            Parser<TOp> op,
+            Parser<T> operand,
+            Func<TOp, T, T, T> apply,
+            Func<Parser<T>, Parser<T>, Parser<T>> or)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            if (operand == null) throw new ArgumentNullException(nameof(operand));
+            if (apply == null) throw new ArgumentNullException(nameof(apply));
+            return or(op.Then(opvalue =>
+                        operand.Then(operandValue =>
+                            ChainRightOperatorRest(operandValue, op, operand, apply, or)).Then(r =>
+                                Return(apply(opvalue, lastOperand, r)))),
+                      Return(lastOperand));
+        }
 
         /// <summary>
         /// Parse a number.
