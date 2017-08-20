@@ -278,17 +278,17 @@ namespace Sprache.Tests
             Assert.Equal(0, r.Remainder.Position);
         }
 
-        //[Fact]
-        //public void PositionedParser()
-        //{
-        //    var pos = (from s in Parse.String("winter").Text()
-        //               select new PosAwareStr { Value = s })
-        //               .Positioned();
-        //    var r = pos.TryParse("winter");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.Equal(0, r.Value.Pos.Pos);
-        //    Assert.Equal(6, r.Value.Length);
-        //}
+        [Fact]
+        public void PositionedParser()
+        {
+            var pos = (from s in Parse.String("winter").Text()
+                       select new PosAwareStr { Value = s })
+                       .Positioned();
+            var r = pos.TryParse("winter");
+            Assert.True(r.WasSuccessful);
+            Assert.Equal(0, r.Value.Pos.Pos);
+            Assert.Equal(6, r.Value.Length);
+        }
 
         //[Fact]
         //public void XAtLeastOnceParser_WhenLastElementFails_FailureReportedAtLastElement()
