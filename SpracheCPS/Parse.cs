@@ -542,19 +542,19 @@ namespace Sprache
             return (i, onSuccess, onFailure) => onSuccess(value, i);
         }
 
-        ///// <summary>
-        ///// Version of Return with simpler inline syntax.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <typeparam name="U"></typeparam>
-        ///// <param name="parser"></param>
-        ///// <param name="value"></param>
-        ///// <returns></returns>
-        //public static Parser<U> Return<T, U>(this Parser<T> parser, U value)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
-        //    return parser.Select(t => value);
-        //}
+        /// <summary>
+        /// Version of Return with simpler inline syntax.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="parser"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static Parser<U> Return<T, U>(this Parser<T> parser, U value)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
+            return parser.Select(t => value);
+        }
 
         /// <summary>
         /// Attempt parsing only if the <paramref name="except"/> parser fails.
@@ -579,19 +579,19 @@ namespace Sprache
             };
         }
 
-        ///// <summary>
-        ///// Parse a sequence of items until a terminator is reached.
-        ///// Returns the sequence, discarding the terminator.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <typeparam name="U"></typeparam>
-        ///// <param name="parser"></param>
-        ///// <param name="until"></param>
-        ///// <returns></returns>
-        //public static Parser<IEnumerable<T>> Until<T, U>(this Parser<T> parser, Parser<U> until)
-        //{
-        //    return parser.Except(until).Many().Then(r => until.Return(r));
-        //}
+        /// <summary>
+        /// Parse a sequence of items until a terminator is reached.
+        /// Returns the sequence, discarding the terminator.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="parser"></param>
+        /// <param name="until"></param>
+        /// <returns></returns>
+        public static Parser<IEnumerable<T>> Until<T, U>(this Parser<T> parser, Parser<U> until)
+        {
+            return parser.Except(until).Many().Then(r => until.Return(r));
+        }
 
         ///// <summary>
         ///// Succeed if the parsed value matches predicate.

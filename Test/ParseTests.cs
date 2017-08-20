@@ -207,16 +207,16 @@ namespace Sprache.Tests
             AssertParser.SucceedsWith(exceptAa, "abcaab", r => Assert.Equal("abc", r));
         }
 
-        //[Fact]
-        //public void UntilProceedsUntilTheStopConditionIsMetAndReturnsAllButEnd()
-        //{
-        //    var untilAa = Parse.AnyChar.Until(Parse.String("aa")).Text();
-        //    var r = untilAa.TryParse("abcaab");
-        //    Assert.IsType<Result<string>>(r);
-        //    var s = (Result<string>)r;
-        //    Assert.Equal("abc", s.Value);
-        //    Assert.Equal(5, s.Remainder.Position);
-        //}
+        [Fact]
+        public void UntilProceedsUntilTheStopConditionIsMetAndReturnsAllButEnd()
+        {
+            var untilAa = Parse.AnyChar.Until(Parse.String("aa")).Text();
+            var r = untilAa.TryParse("abcaab");
+            Assert.IsType<Result<string>>(r);
+            var s = (Result<string>)r;
+            Assert.Equal("abc", s.Value);
+            Assert.Equal(5, s.Remainder.Position);
+        }
 
         //[Fact]
         //public void OptionalParserConsumesInputOnSuccessfulMatch()
