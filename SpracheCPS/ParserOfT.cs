@@ -27,12 +27,12 @@ namespace Sprache
         /// <param name="parser">The parser.</param>
         /// <param name="input">The input.</param>
         /// <returns>The result of the parser</returns>
-        public static void TryParse<T>(this Parser<T> parser, string input, OnSuccess<T> onSuccess, OnFailure onFailure)
+        public static IResult<T> TryParse<T>(this Parser<T> parser, string input)
         {
             if (parser == null) throw new ArgumentNullException(nameof(parser));
             if (input == null) throw new ArgumentNullException(nameof(input));
 
-            parser(new Input(input), onSuccess, onFailure);
+            return new Result<T>(parser(new Input(input), Result.Success<T>, Result.Failure<object>));
         }
 
         ///// <summary>

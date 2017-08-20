@@ -79,28 +79,28 @@ namespace Sprache.Tests
             AssertParser.SucceedsWithAll(Parse.Char('a').AtLeastOnce(), "aaa");
         }
 
-        //[Fact]
-        //public void ConcatenatingParsers_ConcatenatesResults()
-        //{
-        //    var p = Parse.Char('a').Once().Then(a =>
-        //        Parse.Char('b').Once().Select(b => a.Concat(b)));
-        //    AssertParser.SucceedsWithAll(p, "ab");
-        //}
+        [Fact]
+        public void ConcatenatingParsers_ConcatenatesResults()
+        {
+            var p = Parse.Char('a').Once().Then(a =>
+                Parse.Char('b').Once().Select(b => a.Concat(b)));
+            AssertParser.SucceedsWithAll(p, "ab");
+        }
 
-        //[Fact]
-        //public void ReturningValue_DoesNotAdvanceInput()
-        //{
-        //    var p = Parse.Return(1);
-        //    AssertParser.SucceedsWith(p, "abc", n => Assert.Equal(1, n));
-        //}
+        [Fact]
+        public void ReturningValue_DoesNotAdvanceInput()
+        {
+            var p = Parse.Return(1);
+            AssertParser.SucceedsWith(p, "abc", n => Assert.Equal(1, n));
+        }
 
-        //[Fact]
-        //public void ReturningValue_ReturnsValueAsResult()
-        //{
-        //    var p = Parse.Return(1);
-        //    var r = (Result<int>)p.TryParse("abc");
-        //    Assert.Equal(0, r.Remainder.Position);
-        //}
+        [Fact]
+        public void ReturningValue_ReturnsValueAsResult()
+        {
+            var p = Parse.Return(1);
+            var r = (Result<int>)p.TryParse("abc");
+            Assert.Equal(0, r.Remainder.Position);
+        }
 
         //[Fact]
         //public void CanSpecifyParsersUsingQueryComprehensions()

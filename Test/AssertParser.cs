@@ -29,40 +29,42 @@ namespace Sprache.Tests
 
         public static void SucceedsWith<T>(Parser<T> parser, string input, Action<T> resultAssertion)
         {
-            parser.TryParse(
-                input,
-                (value, remainder) =>
+            parser.TryParse(input)
+                .IfFailure(f =>
                 {
-                    resultAssertion(value);
-                    return null;
-                },
-                (remainder, message, expectations) =>
+                    Assert.True(false, $"Parsing of \"input\" failed unexpectedly. f");
+                    return f;
+                })
+                .IfSuccess(s =>
                 {
-                    Assert.True(false, $"Parsing of \"input\" failed unexpectedly.");
-                    return null;
+                    resultAssertion(s.Value);
+                    return s;
                 });
         }
 
         public static void Fails<T>(Parser<T> parser, string input)
         {
-            FailsWith(parser, input, (ramainder, message, expectations) => null);
+            FailsWith(parser, input, f => { });
         }
 
         public static void FailsAt<T>(Parser<T> parser, string input, int position)
         {
-            FailsWith(parser, input, (remainder, message, expectations) => { Assert.Equal(position, remainder.Position); return null; });
+            FailsWith(parser, input, f => Assert.Equal(position, f.Remainder.Position));
         }
 
-        public static void FailsWith<T>(Parser<T> parser, string input, OnFailure resultAssertion)
+        public static void FailsWith<T>(Parser<T> parser, string input, Action<IResult<T>> resultAssertion)
         {
-            parser.TryParse(
-                input,
-                (value, remainder) =>
+            parser.TryParse(input)
+                .IfSuccess(s =>
                 {
-                    Assert.True(false, $"Expected failure but succeeded with {value}.");
-                    return null;
-                },
-                resultAssertion);
+                    Assert.True(false, $"Expected failure but succeeded with {s.Value}.");
+                    return s;
+                })
+                .IfFailure(f =>
+                {
+                    resultAssertion(f);
+                    return f;
+                });
         }
     }
 }

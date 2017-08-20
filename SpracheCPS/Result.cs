@@ -16,9 +16,14 @@ namespace Sprache
         /// <param name="value">The sucessfully parsed value.</param>
         /// <param name="remainder">The remainder of the input.</param>
         /// <returns>The new <see cref="IResult&lt;T&gt;"/>.</returns>
-        public static IResult<T> Success<T>(T value, IInput remainder)
+        public static IResult<T> SuccessT<T>(T value, IInput remainder)
         {
             return new Result<T>(value, remainder);
+        }
+
+        public static IResult<object> Success<T>(T value, IInput remainder)
+        {
+            return new Result<object>((object)value, remainder);
         }
 
         /// <summary>
@@ -63,11 +68,15 @@ namespace Sprache
 
         public Result(IResult<object> result)
         {
-            _value = (T) result.Value;
-            _remainder = result.Remainder;
             _wasSuccessful = result.WasSuccessful;
-            _message = result.Message;
-            _expectations = result.Expectations;
+            _remainder = result.Remainder;
+            if (_wasSuccessful)
+                _value = (T)result.Value;
+            else
+            {
+                _message = result.Message;
+                _expectations = result.Expectations;
+            }
         }
 
         public T Value
