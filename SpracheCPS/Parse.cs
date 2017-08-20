@@ -251,29 +251,7 @@ namespace Sprache
         {
             if (parser == null) throw new ArgumentNullException(nameof(parser));
 
-            return (input, onSuccess, onFailure) =>
-            {
-                var remainder_ = input;
-                var result = new List<T>();
-                OnSuccess<T> onSuccess_ = null;
-                onSuccess_ = (value, remainder) =>
-                {
-                    if (remainder.Equals(remainder_))
-                        return null;
-
-                    result.Add(value);
-                    remainder_ = remainder;
-                    parser(remainder, onSuccess_, (_remainder, _message, _expectations) => null);
-                    return null;
-                };
-
-                parser(
-                    input,
-                    onSuccess_,
-                    (remainder, message, expectaions) => null);
-
-                return onSuccess(result, remainder_);
-            };
+            return parser.AtLeastOnce().Or(Return(Enumerable.Empty<T>()));
         }
 
         ///// <summary>
