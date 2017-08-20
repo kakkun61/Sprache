@@ -355,34 +355,44 @@ namespace Sprache
         //           select item;
         //}
 
-        ///// <summary>
-        ///// Refer to another parser indirectly. This allows circular compile-time dependency between parsers.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="reference"></param>
-        ///// <returns></returns>
-        //public static Parser<T> Ref<T>(Func<Parser<T>> reference)
-        //{
-        //    if (reference == null) throw new ArgumentNullException(nameof(reference));
+        /// <summary>
+        /// Refer to another parser indirectly. This allows circular compile-time dependency between parsers.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="reference"></param>
+        /// <returns></returns>
+        public static Parser<T> Ref<T>(Func<Parser<T>> reference)
+        {
+            if (reference == null) throw new ArgumentNullException(nameof(reference));
 
-        //    Parser<T> p = null;
+            Parser<T> parser = null;
 
-        //    return i =>
-        //               {
-        //                   if (p == null)
-        //                       p = reference();
+            return (input, onSuccess, onFailure) =>
+            {
+                if (parser == null)
+                    parser = reference();
 
-        //                   if (i.Memos.ContainsKey(p))
-        //                       throw new ParseException(i.Memos[p].ToString());
+                if (input.Memos.ContainsKey(parser))
+                    throw new ParseException(input.Memos[parser].ToString());
 
-        //                   i.Memos[p] = Result.Failure<T>(i,
-        //                       "Left recursion in the grammar.",
-        //                       new string[0]);
-        //                   var result = p(i);
-        //                   i.Memos[p] = result;
-        //                   return result;
-        //               };
-        //}
+                input.Memos[parser] = Result.Failure<T>(
+                    input,
+                    "Left recursion in the grammar.",
+                    new string[0]);
+                return parser(
+                    input,
+                    (value, remainder) =>
+                    {
+                        input.Memos[parser] = Result.Success(value, remainder);
+                        return onSuccess(value, remainder);
+                    },
+                    (remainder, message, expectations) =>
+                    {
+                        input.Memos[parser] = Result.Failure<T>(remainder, message, expectations);
+                        return onFailure(remainder, message, expectations);
+                    });
+            };
+        }
 
         ///// <summary>
         ///// Convert a stream of characters to a string.

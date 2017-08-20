@@ -145,18 +145,18 @@ namespace Sprache.Tests
             AssertParser.SucceedsWithAll(p, "abc");
         }
 
-        //static readonly Parser<IEnumerable<char>> ASeq =
-        //    (from first in Parse.Ref(() => ASeq)
-        //     from comma in Parse.Char(',')
-        //     from rest in Parse.Char('a').Once()
-        //     select first.Concat(rest))
-        //    .Or(Parse.Char('a').Once());
+        static readonly Parser<IEnumerable<char>> ASeq =
+            (from first in Parse.Ref(() => ASeq)
+             from comma in Parse.Char(',')
+             from rest in Parse.Char('a').Once()
+             select first.Concat(rest))
+            .Or(Parse.Char('a').Once());
 
-        //[Fact]
-        //public void DetectsLeftRecursion()
-        //{
-        //    Assert.Throws<ParseException>(() => ASeq.TryParse("a,a,a"));
-        //}
+        [Fact]
+        public void DetectsLeftRecursion()
+        {
+            Assert.Throws<ParseException>(() => ASeq.TryParse("a,a,a"));
+        }
 
         //static readonly Parser<IEnumerable<char>> ABSeq =
         //    (from first in Parse.Ref(() => BASeq)
