@@ -173,10 +173,10 @@ namespace Sprache
         ///// </summary>
         //public static readonly Parser<char> Upper = Char(char.IsUpper, "uppercase letter");
 
-        ///// <summary>
-        ///// Parse a numeric character.
-        ///// </summary>
-        //public static readonly Parser<char> Numeric = Char(char.IsNumber, "numeric character");
+        /// <summary>
+        /// Parse a numeric character.
+        /// </summary>
+        public static readonly Parser<char> Numeric = Char(char.IsNumber, "numeric character");
 
         /// <summary>
         /// Parse a string of characters.
@@ -740,34 +740,34 @@ namespace Sprache
         //              Return(lastOperand));
         //}
 
-        ///// <summary>
-        ///// Parse a number.
-        ///// </summary>
-        //public static readonly Parser<string> Number = Numeric.AtLeastOnce().Text();
+        /// <summary>
+        /// Parse a number.
+        /// </summary>
+        public static readonly Parser<string> Number = Numeric.AtLeastOnce().Text();
 
-        //static Parser<string> DecimalWithoutLeadingDigits(CultureInfo ci = null)
-        //{
-        //    return from nothing in Return("")
-        //           // dummy so that CultureInfo.CurrentCulture is evaluated later
-        //           from dot in String((ci ?? CultureInfo.CurrentCulture).NumberFormat.NumberDecimalSeparator).Text()
-        //           from fraction in Number
-        //           select dot + fraction;
-        //}
+        static Parser<string> DecimalWithoutLeadingDigits(CultureInfo ci = null)
+        {
+            return from nothing in Return("")
+                       // dummy so that CultureInfo.CurrentCulture is evaluated later
+                   from dot in String((ci ?? CultureInfo.CurrentCulture).NumberFormat.NumberDecimalSeparator).Text()
+                   from fraction in Number
+                   select dot + fraction;
+        }
 
-        //static Parser<string> DecimalWithLeadingDigits(CultureInfo ci = null)
-        //{
-        //    return Number.Then(n => DecimalWithoutLeadingDigits(ci).XOr(Return("")).Select(f => n + f));
-        //}
+        static Parser<string> DecimalWithLeadingDigits(CultureInfo ci = null)
+        {
+            return Number.Then(n => DecimalWithoutLeadingDigits(ci).XOr(Return("")).Select(f => n + f));
+        }
 
-        ///// <summary>
-        ///// Parse a decimal number using the current culture's separator character.
-        ///// </summary>
-        //public static readonly Parser<string> Decimal = DecimalWithLeadingDigits().XOr(DecimalWithoutLeadingDigits());
+        /// <summary>
+        /// Parse a decimal number using the current culture's separator character.
+        /// </summary>
+        public static readonly Parser<string> Decimal = DecimalWithLeadingDigits().XOr(DecimalWithoutLeadingDigits());
 
-        ///// <summary>
-        ///// Parse a decimal number with separator '.'.
-        ///// </summary>
-        //public static readonly Parser<string> DecimalInvariant = DecimalWithLeadingDigits(CultureInfo.InvariantCulture)
-        //                                                             .XOr(DecimalWithoutLeadingDigits(CultureInfo.InvariantCulture));
+        /// <summary>
+        /// Parse a decimal number with separator '.'.
+        /// </summary>
+        public static readonly Parser<string> DecimalInvariant = DecimalWithLeadingDigits(CultureInfo.InvariantCulture)
+                                                                     .XOr(DecimalWithoutLeadingDigits(CultureInfo.InvariantCulture));
     }
 }
