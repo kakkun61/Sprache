@@ -290,19 +290,19 @@ namespace Sprache
             return parser.Once().Then(t1 => parser.Many().Select(ts => t1.Concat(ts)));
         }
 
-        ///// <summary>
-        ///// TryParse a stream of elements with at least one item. Except the first
-        ///// item, all other items will be matched with the <code>XMany</code> operator.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="parser"></param>
-        ///// <returns></returns>
-        //public static Parser<IEnumerable<T>> XAtLeastOnce<T>(this Parser<T> parser)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
+        /// <summary>
+        /// TryParse a stream of elements with at least one item. Except the first
+        /// item, all other items will be matched with the <code>XMany</code> operator.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parser"></param>
+        /// <returns></returns>
+        public static Parser<IEnumerable<T>> XAtLeastOnce<T>(this Parser<T> parser)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
 
-        //    return parser.Once().Then(t1 => parser.XMany().Select(ts => t1.Concat(ts)));
-        //}
+            return parser.Once().Then(t1 => parser.XMany().Select(ts => t1.Concat(ts)));
+        }
 
         /// <summary>
         /// Parse end-of-input.

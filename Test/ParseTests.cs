@@ -290,21 +290,21 @@ namespace Sprache.Tests
             Assert.Equal(6, r.Value.Length);
         }
 
-        //[Fact]
-        //public void XAtLeastOnceParser_WhenLastElementFails_FailureReportedAtLastElement()
-        //{
-        //    var ab = Parse.String("ab").Text();
-        //    var p = ab.XAtLeastOnce().End();
-        //    AssertParser.FailsAt(p, "ababaf", 5);
-        //}
+        [Fact]
+        public void XAtLeastOnceParser_WhenLastElementFails_FailureReportedAtLastElement()
+        {
+            var ab = Parse.String("ab").Text();
+            var p = ab.XAtLeastOnce().End();
+            AssertParser.FailsAt(p, "ababaf", 5);
+        }
 
-        //[Fact]
-        //public void XAtLeastOnceParser_WhenFirstElementFails_FailureReportedAtFirstElement()
-        //{
-        //    var ab = Parse.String("ab").Text();
-        //    var p = ab.XAtLeastOnce().End();
-        //    AssertParser.FailsAt(p, "d", 0);
-        //}
+        [Fact]
+        public void XAtLeastOnceParser_WhenFirstElementFails_FailureReportedAtFirstElement()
+        {
+            var ab = Parse.String("ab").Text();
+            var p = ab.XAtLeastOnce().End();
+            AssertParser.FailsAt(p, "d", 0);
+        }
 
         //[Fact]
         //public void NotParserConsumesNoInputOnFailure()
