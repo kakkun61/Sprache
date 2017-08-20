@@ -587,23 +587,27 @@ namespace Sprache
             return parser.Except(until).Many().Then(r => until.Return(r));
         }
 
-        ///// <summary>
-        ///// Succeed if the parsed value matches predicate.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="parser"></param>
-        ///// <param name="predicate"></param>
-        ///// <returns></returns>
-        //public static Parser<T> Where<T>(this Parser<T> parser, Func<T, bool> predicate)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
-        //    if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+        /// <summary>
+        /// Succeed if the parsed value matches predicate.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parser"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static Parser<T> Where<T>(this Parser<T> parser, Func<T, bool> predicate)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-        //    return i => parser(i).IfSuccess(s =>
-        //        predicate(s.Value) ? s : Result.Failure<T>(i,
-        //            string.Format("Unexpected {0}.", s.Value),
-        //            new string[0]));
-        //}
+            return (input, onSeccess, onFailure) =>
+            parser(
+                input,
+                (value, remainder) =>
+                    predicate(value)?
+                        onSeccess(value, remainder):
+                        onFailure(input, string.Format("Unexpected {0}.", value), new string[0]),
+                onFailure);
+        }
 
         /// <summary>
         /// Monadic combinator Then, adapted for Linq comprehension syntax.
