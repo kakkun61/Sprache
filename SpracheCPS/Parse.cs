@@ -195,30 +195,24 @@ namespace Sprache
                 .Named(s);
         }
 
-        ///// <summary>
-        ///// Constructs a parser that will fail if the given parser succeeds,
-        ///// and will succeed if the given parser fails. In any case, it won't
-        ///// consume any input. It's like a negative look-ahead in regex.
-        ///// </summary>
-        ///// <typeparam name="T">The result type of the given parser</typeparam>
-        ///// <param name="parser">The parser to wrap</param>
-        ///// <returns>A parser that is the opposite of the given parser.</returns>
-        //public static Parser<object> Not<T>(this Parser<T> parser)
-        //{
-        //    if (parser == null) throw new ArgumentNullException(nameof(parser));
+        /// <summary>
+        /// Constructs a parser that will fail if the given parser succeeds,
+        /// and will succeed if the given parser fails. In any case, it won't
+        /// consume any input. It's like a negative look-ahead in regex.
+        /// </summary>
+        /// <typeparam name="T">The result type of the given parser</typeparam>
+        /// <param name="parser">The parser to wrap</param>
+        /// <returns>A parser that is the opposite of the given parser.</returns>
+        public static Parser<object> Not<T>(this Parser<T> parser)
+        {
+            if (parser == null) throw new ArgumentNullException(nameof(parser));
 
-        //    return i =>
-        //    {
-        //        var result = parser(i);
-
-        //        if (result.WasSuccessful)
-        //        {
-        //            var msg = $"`{StringExtensions.Join(", ", result.Expectations)}' was not expected";
-        //            return Result.Failure<object>(i, msg, new string[0]);
-        //        }
-        //        return Result.Success<object>(null, i);
-        //    };
-        //}
+            return (input, onSuccess, onFailure) =>
+                parser(
+                    input,
+                    (value, remainder) => onFailure(input, $"{value} was not expected", new string[0]),
+                    (remainder, message, expectations) => onSuccess(null, input));
+        }
 
         /// <summary>
         /// Parse first, and if successful, then parse second.

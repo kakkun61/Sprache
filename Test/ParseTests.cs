@@ -306,21 +306,21 @@ namespace Sprache.Tests
             AssertParser.FailsAt(p, "d", 0);
         }
 
-        //[Fact]
-        //public void NotParserConsumesNoInputOnFailure()
-        //{
-        //    var notAb = Parse.String("ab").Text().Not();
-        //    AssertParser.FailsAt(notAb, "abc", 0);
-        //}
+        [Fact]
+        public void NotParserConsumesNoInputOnFailure()
+        {
+            var notAb = Parse.String("ab").Text().Not();
+            AssertParser.FailsAt(notAb, "abc", 0);
+        }
 
-        //[Fact]
-        //public void NotParserConsumesNoInputOnSuccess()
-        //{
-        //    var notAb = Parse.String("ab").Text().Not();
-        //    var r = notAb.TryParse("d");
-        //    Assert.True(r.WasSuccessful);
-        //    Assert.Equal(0, r.Remainder.Position);
-        //}
+        [Fact]
+        public void NotParserConsumesNoInputOnSuccess()
+        {
+            var notAb = Parse.String("ab").Text().Not();
+            var r = notAb.TryParse("d");
+            Assert.True(r.WasSuccessful);
+            Assert.Equal(0, r.Remainder.Position);
+        }
 
         //[Fact]
         //public void IgnoreCaseParser()
