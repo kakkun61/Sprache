@@ -1,11 +1,14 @@
-﻿﻿using System;
+﻿extern alias sprache_current;
+extern alias sprache_c2cf535;
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Sprache;
 using System.IO;
-using System.Xml;
+using SpracheCurrent = sprache_current::Sprache;
+using SpracheC2cf535 = sprache_c2cf535::Sprache;
 
 namespace XmlExample
 {
@@ -46,74 +49,25 @@ namespace XmlExample
         }
     }
 
-    public static class XmlParser
-    {
-        static CommentParser Comment = new CommentParser("<!--", "-->", "\r\n");
-
-        static readonly Parser<string> Identifier =
-            from first in Parse.Letter.Once()
-            from rest in Parse.LetterOrDigit.XOr(Parse.Char('-')).XOr(Parse.Char('_')).Many()
-            select new string(first.Concat(rest).ToArray());
-
-        static Parser<T> Tag<T>(Parser<T> content)
-        {
-            return from lt in Parse.Char('<')
-                   from t in content
-                   from gt in Parse.Char('>').Token()
-                   select t;
-        }
-
-        static readonly Parser<string> BeginTag = Tag(Identifier);
-
-        static Parser<string> EndTag(string name)
-        {
-            return Tag(from slash in Parse.Char('/')
-                       from id in Identifier
-                       where id == name
-                       select id).Named("closing tag for " + name);
-        }
-
-        static readonly Parser<Content> Content =
-            from chars in Parse.CharExcept('<').Many()
-            select new Content { Text = new string(chars.ToArray()) };
-
-        static readonly Parser<Node> FullNode =
-            from tag in BeginTag
-            from nodes in Parse.Ref(() => Item).Many()
-            from end in EndTag(tag)
-            select new Node { Name = tag, Children = nodes };
-
-        static readonly Parser<Node> ShortNode = Tag(from id in Identifier
-                                                     from slash in Parse.Char('/')
-                                                     select new Node { Name = id });
-
-        static readonly Parser<Node> Node = ShortNode.Or(FullNode);
-
-        static readonly Parser<Item> Item =
-            from leading in Comment.MultiLineComment.Many()
-            from item in Node.Select(n => (Item)n).XOr(Content)
-            from trailing in Comment.MultiLineComment.Many()
-            select item;
-
-        public static readonly Parser<Document> Document =
-            from leading in Parse.WhiteSpace.Many()
-            from doc in Node.Select(n => new Document { Root = n }).End()
-            select doc;
-    }
-
     class Program
     {
         static void Main()
         {
-            MeasurePerformance(() =>
+            MeasurePerformance("c2cf535", () =>
             {
                 string input = File.ReadAllText("TestFile.xml", Encoding.UTF8);
-                var parsed = XmlParser.Document.Parse(input);
+                var parsed = SpracheC2cf535.ParserExtensions.Parse(XmlParserC2cf535.Document, input);
+                Console.WriteLine(parsed);
+            });
+            MeasurePerformance("current", () =>
+            {
+                string input = File.ReadAllText("TestFile.xml", Encoding.UTF8);
+                var parsed = SpracheCurrent.ParserExtensions.Parse(XmlParserCurrent.Document, input);
                 Console.WriteLine(parsed);
             });
         }
 
-        static void MeasurePerformance(Action action)
+        static void MeasurePerformance(string tag, Action action)
         {
             var n = 10;
             var m = 10;
@@ -141,6 +95,7 @@ namespace XmlExample
             }
 
             {
+                Console.WriteLine("{0}", tag);
                 Console.WriteLine("mean time [ms]: {0}", TimeSpan.FromMilliseconds(elapsedTimeSpans.Average()));
                 Console.WriteLine("max time [ms]: {0}", TimeSpan.FromMilliseconds(elapsedTimeSpans.Max()));
                 Console.WriteLine("min time [ms]: {0}", TimeSpan.FromMilliseconds(elapsedTimeSpans.Min()));

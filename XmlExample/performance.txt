@@ -1,8 +1,0 @@
-﻿revision hash: c2cf535b6b156663f5407ac62a2c8a959b5974ca
-
-mean time [ms]: 00:00:00.1280000
-max time [ms]: 00:00:00.2000000
-min time [ms]: 00:00:00.1130000
-mean memory [B]: 16441344
-max memory [B]: 16441344
-min memory [B]: 16441344
