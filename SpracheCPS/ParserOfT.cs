@@ -32,7 +32,7 @@ namespace Sprache
             if (parser == null) throw new ArgumentNullException(nameof(parser));
             if (input == null) throw new ArgumentNullException(nameof(input));
 
-            return new Result<T>(parser(new Input(input), Result.Success<T>, Result.Failure<object>));
+            return new Result<T>(parser(new Input(input), Result.Success<T>, Result.Failure));
         }
 
         /// <summary>

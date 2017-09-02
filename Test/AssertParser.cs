@@ -19,7 +19,7 @@ namespace Sprache.Tests
 
         public static void SucceedsWithMany<T>(Parser<IEnumerable<T>> parser, string input, IEnumerable<T> expectedResult)
         {
-            SucceedsWith(parser, input, t => Assert.True(t.SequenceEqual(expectedResult)));
+            SucceedsWith(parser, input, t => Assert.True(t.SequenceEqual(expectedResult), string.Format("Expected: {0}, Actual: {1}", IEnumerableToString(expectedResult), IEnumerableToString(t))));
         }
 
         public static void SucceedsWithAll(Parser<IEnumerable<char>> parser, string input)
@@ -65,6 +65,11 @@ namespace Sprache.Tests
                     resultAssertion(f);
                     return f;
                 });
+        }
+
+        static string IEnumerableToString<T>(IEnumerable<T> e)
+        {
+            return "{" + string.Join(",", e.ToArray()) + "}";
         }
     }
 }

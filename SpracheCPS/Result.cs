@@ -38,6 +38,11 @@ namespace Sprache
         {
             return new Result<T>(remainder, message, expectations);
         }
+
+        public static IResult<object> Failure(IInput remainder, string message, IEnumerable<string> expectations)
+        {
+            return new Result<object>(remainder, message, expectations);
+        }
     }
 
     internal class Result<T> : IResult<T>

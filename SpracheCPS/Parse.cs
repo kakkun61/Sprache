@@ -245,7 +245,26 @@ namespace Sprache
         {
             if (parser == null) throw new ArgumentNullException(nameof(parser));
 
-            return parser.AtLeastOnce().Or(Return(Enumerable.Empty<T>()));
+            // equivalent to
+            //     return parser.AtLeastOnce().Or(Return(Enumerable.Empty<T>()));
+            return (i, onSuccess, onFaulure) =>
+            {
+                var remainder = i;
+                var result = new List<T>();
+                var r = parser(i, Result.Success<T>, Result.Failure);
+
+                while (r.WasSuccessful)
+                {
+                    if (remainder.Equals(r.Remainder))
+                        break;
+
+                    result.Add((T)r.Value);
+                    remainder = r.Remainder;
+                    r = parser(remainder, Result.Success<T>, Result.Failure);
+                }
+
+                return onSuccess(result, remainder);
+            };
         }
 
         /// <summary>
