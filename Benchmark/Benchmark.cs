@@ -1,7 +1,6 @@
 ﻿extern alias sprache_current;
 extern alias sprache_c2cf535;
-using System.Collections.Generic;
-using System.Linq;
+
 using System.Text;
 using System.IO;
 using BenchmarkDotNet.Attributes;
@@ -46,7 +45,7 @@ namespace XmlExample
         [Benchmark]
         public object Current()
         {
-            return SpracheCurrent.ParserExtensions.Parse(XmlParserCurrent.Document, input);
+            return SpracheCurrent.ParserExtensions.Parse(XmlParser.Document, input);
         }
     }
 
